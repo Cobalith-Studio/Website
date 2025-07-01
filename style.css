@@ -93,6 +93,7 @@ main {
     padding-left: 2rem;
     padding-right: 2rem;
     width: 100%;
+    box-sizing: border-box;
 }
 
 section {
@@ -190,6 +191,13 @@ section h2 {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 2rem;
     align-items: flex-start;
+}
+
+.simulator-container > .simulator-col {
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
 }
 
 .simulator-col {
@@ -292,7 +300,7 @@ footer {
     }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 960px) {
     .simulator-container {
         grid-template-columns: 1fr;
     }
