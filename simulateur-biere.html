@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <title>Simulateur de Bière - Cobalith Studio</title>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">
+        <img src="logo.png" alt="Logo Cobalith Studio" />
+        <span>Cobalith Studio</span>
+    </a>
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="simulateur.html">Simulateur</a>
+    </nav>
+</header>
+
+<main>
+    <section id="beer-sim">
+        <h2>Simulateur de Bière</h2>
+        <div class="simulator-container">
+
+            <!-- Colonne gauche : Ingrédients -->
+            <div class="simulator-col gauche">
+                <div class="project-card">
+                    <h3>Ingrédients</h3>
+
+                    <div class="form-field">
+                        <label for="select-malt-base">Malt de base (> 50%)</label>
+                        <select id="select-malt-base"></select>
+                        <div class="malt-input">
+                            <input type="range" id="range-malt-base" min="0" max="100" value="100" step="1" />
+                            <span class="percent-display" id="percent-malt-base">100%</span>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="select-malt-touraille">Malt touraillé (≤ 30%)</label>
+                        <select id="select-malt-touraille"></select>
+                        <div class="malt-input">
+                            <input type="range" id="range-malt-touraille" min="0" max="100" value="0" step="1" />
+                            <span class="percent-display" id="percent-malt-touraille">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="select-malt-caramel">Malt caramel (≤ 15%)</label>
+                        <select id="select-malt-caramel"></select>
+                        <div class="malt-input">
+                            <input type="range" id="range-malt-caramel" min="0" max="100" value="0" step="1" />
+                            <span class="percent-display" id="percent-malt-caramel">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="select-malt-torrefie">Malt torréfié (≤ 10%)</label>
+                        <select id="select-malt-torrefie"></select>
+                        <div class="malt-input">
+                            <input type="range" id="range-malt-torrefie" min="0" max="100" value="0" step="1" />
+                            <span class="percent-display" id="percent-malt-torrefie">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="select-autres-malts">Autres malts (≤ 30%)</label>
+                        <select id="select-autres-malts"></select>
+                        <div class="malt-input">
+                            <input type="range" id="range-autres-malts" min="0" max="100" value="0" step="1" />
+                            <span class="percent-display" id="percent-autres-malts">0%</span>
+                        </div>
+                    </div>
+
+                    <!-- Houblons / Levure / Fermentation / Ajouts -->
+                    <div class="form-field">
+                        <label for="select-houblons-amers">Houblon amérisant</label>
+                        <select id="select-houblons-amers" multiple></select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="select-houblons-aromes">Houblon aromatique</label>
+                        <select id="select-houblons-aromes" multiple></select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="select-fermentation">Fermentation</label>
+                        <select id="select-fermentation"></select>
+                    </div>
+
+                    <div class="form-field" id="bloc-levure">
+                        <label for="select-levure">Type de levure</label>
+                        <select id="select-levure"></select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="select-ajouts">Ajouts (épices, fruits...)</label>
+                        <select id="select-ajouts" multiple></select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colonne centrale : Technique -->
+            <div class="simulator-col centre">
+                <div class="project-card">
+                    <h3>Procédé de brassage</h3>
+
+                    <div class="form-field">
+                        <label for="select-empattage">Température d’empâtage</label>
+                        <select id="select-empattage"></select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="select-ebullition">Durée d’ébullition</label>
+                        <select id="select-ebullition"></select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="select-temp-fermentation">Température de fermentation</label>
+                        <select id="select-temp-fermentation"></select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="select-duree-fermentation">Durée de fermentation</label>
+                        <select id="select-duree-fermentation"></select>
+                    </div>
+
+                    <div class="form-field" id="bloc-garde">
+                        <label for="select-garde">Garde / maturation</label>
+                        <select id="select-garde"></select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="select-carbonatation">Carbonatation</label>
+                        <select id="select-carbonatation"></select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colonne droite : Résultat -->
+            <div class="simulator-col right">
+                <div class="project-card">
+                    <h3>Bière simulée</h3>
+                    <p><strong>Type :</strong> <span id="val-type">—</span></p>
+                    <p><strong>Style :</strong> <span id="val-style">—</span></p>
+                    <hr style="margin: 1rem 0; border-color: var(--main-color);">
+                    <p><strong>Alcool (ABV) :</strong> <span id="val-abv">—</span></p>
+                    <p><strong>Amertume (IBU) :</strong> <span id="val-ibu">—</span></p>
+                    <div class="ibu-meter">
+                        <div class="ibu-bar">
+                            <div class="ibu-fill" id="ibu-fill"></div>
+                        </div>
+                        <small id="ibu-level-text">—</small>
+                    </div>
+                    <p><strong>Couleur (EBC) :</strong> <span id="val-ebc">—</span></p>
+                    <div class="ebc-meter">
+                        <div class="ebc-bar">
+                            <div class="ebc-fill" id="ebc-fill"></div>
+                        </div>
+                        <small id="ebc-level-text">—</small>
+                    </div>
+                    <hr style="margin: 1rem 0; border-color: var(--main-color);">
+                    <p><strong>Arôme dominant :</strong> <span id="val-arome-dominant">—</span></p>
+                    <p><strong>Profil aromatique :</strong> <span id="val-aromes">—</span></p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<footer>
+    &copy; 2025 Cobalith Studio. Tous droits réservés.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<script src="simulateur-biere.js"></script>
+
+</body>
+</html>

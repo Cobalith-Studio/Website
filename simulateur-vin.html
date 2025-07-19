@@ -1,0 +1,116 @@
+﻿<!-- simulateur.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <link rel="website icon" type="png" href="logo.png">
+    <title>Simulateur de Vinification - Cobalith Studio</title>
+</head>
+<body>
+<header>
+    <a href="index.html" class="logo" aria-label="Accueil Cobalith Studio">
+        <img src="logo.png" alt="Logo Cobalith Studio" />
+        <span>Cobalith Studio</span>
+    </a>
+    <nav aria-label="Menu principal">
+        <a href="index.html" tabindex="0">Accueil</a>
+        <a href="simulateur.html" tabindex="0">Simulateur</a>
+    </nav>
+</header>
+
+<main>
+    <section id="vin-sim" tabindex="-1" aria-labelledby="vin-sim-title">
+        <h2 id="vin-sim-title">Simulateur de Vinification</h2>
+
+        <div class="simulator-container">
+            <div class="simulator-col gauche">
+
+                <div class="project-card">
+                    <h3>Choix du cépage</h3>
+
+                    <label for="select-cepage">Cépage :</label>
+                    <select id="select-cepage"></select>
+
+                    <label for="select-vendange">Moment de la vendange :</label>
+                    <select id="select-vendange"></select>
+                </div>
+
+                <div class="project-card">
+                    <h3>Choix du terrain</h3>
+
+                    <label for="select-sol">Type de sol :</label>
+                    <select id="select-sol"></select>
+
+                    <label for="select-soleil">Ensoleillement :</label>
+                    <select id="select-soleil"></select>
+
+                    <label for="select-pluie">Précipitations :</label>
+                    <select id="select-pluie"></select>
+                </div>
+            </div>
+
+            <div class="simulator-col centre">
+                <div class="project-card">
+                    <h3>Étapes de vinification</h3>
+
+                    <label for="select-foulage">Foulage :</label>
+                    <select id="select-foulage"></select>
+
+                    <label for="select-levures">Levures :</label>
+                    <select id="select-levures"></select>
+
+                    <label for="select-maceration">Macération :</label>
+                    <select id="select-maceration"></select>
+
+                    <label for="select-fermentation-temp">Fermentation alcoolique - Température :</label>
+                    <select id="select-fermentation-temp"></select>
+
+                    <label for="select-fermentation-duree">Fermentation alcoolique - Durée :</label>
+                    <select id="select-fermentation-duree"></select>
+
+                    <label for="select-malolactique">Fermentation malolactique :</label>
+                    <select id="select-malolactique"></select>
+
+                    <label for="select-elevage-type">Élevage - Type :</label>
+                    <select id="select-elevage-type"></select>
+
+                    <label for="select-elevage-duree">Élevage - Durée :</label>
+                    <select id="select-elevage-duree"></select>
+
+                    <label for="select-elevage-chauffe">Élevage - Chauffe :</label>
+                    <select id="select-elevage-chauffe"></select>
+                </div>
+            </div>
+
+            <div class="simulator-col right">
+                <div class="project-card">
+                    <h3>Vin simulé</h3>
+                    <p><strong>Type :</strong> <span id="val-type">—</span></p>
+                    <p><strong>Style :</strong> <span id="val-style">—</span></p>
+                    <p><strong>Cépage :</strong> <span id="val-nom">—</span></p>
+                    <hr style="margin: 1rem 0; border-color: var(--main-color);">
+                    <p><strong>Sucre :</strong> <span id="val-sucre">—</span> g/L</p>
+                    <p><strong>Acidité :</strong> <span id="val-acidite">—</span> g/L</p>
+                    <p><strong>Tanins :</strong> <span id="val-tanins">—</span> IPT</p>
+                    <p><strong>Alcool :</strong> <span id="val-alcool">0.0</span> % vol</p>
+                    <hr style="margin: 1rem 0; border-color: var(--main-color);">
+                    <p><strong>Arômes primaires :</strong> <span id="val-aromes-primaire">N/A</span></p>
+                    <p><strong>Arômes secondaires :</strong> <span id="val-aromes-secondaire">N/A</span></p>
+                    <p><strong>Arômes tertiaires :</strong> <span id="val-aromes-tertiaire">N/A</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    &copy; 2025 Cobalith Studio. Tous droits réservés.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<script src="simulateur-vin.js"></script>
+</body>
+</html>
