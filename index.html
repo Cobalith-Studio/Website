@@ -1,155 +1,17 @@
-﻿<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Cobalith Studio - Studio indépendant de création de jeux vidéo originaux et immersifs. Rejoignez notre communauté et découvrez nos projets." />
-    <meta property="og:title" content="Cobalith Studio - Créateurs de Jeux Vidéo" />
-    <meta property="og:description" content="Découvrez l'univers de Cobalith Studio, un collectif de développeurs et créateurs de jeux vidéo originaux." />
-    <meta property="og:image" content="logo.png" />
-    <meta property="og:type" content="website" />
-    <link rel="stylesheet" href="style.css">
-    <link rel="website icon" type="png" href="logo.png">
-    <title>Cobalith Studio - Créateurs de Jeux Vidéo</title>
-</head>
-<body>
-<header>
-    <a href="#hero" class="logo" aria-label="Accueil Cobalith Studio">
-        <img src="logo.png" alt="Logo Cobalith Studio" />
-        <span>Cobalith Studio</span>
-    </a>
-    <nav aria-label="Menu principal">
-        <a href="#about">À propos</a>
-        <a href="#projects">Projets</a>
-        <a href="#contact">Contact</a>
-        <a href="#legal">Mentions légales</a>
-        <a href="simulateur.html">Simulateur</a>
-    </nav>
-</header>
-
-<main>
-    <!-- Section Hero -->
-    <section id="hero">
-        <img src="banniere-hero.png" alt="Paysage de vignoble au coucher de soleil" class="hero-img">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>Créons l'Aventure</h1>
-            <p>Cobalith Studio imagine des jeux vidéo immersifs, narratifs et originaux.
-                Rejoignez notre communauté et découvrez nos univers.</p>
-            <a href="https://discord.gg/yKXXXunr" class="cta-btn">Rejoindre le Discord</a>
-        </div>
-    </section>
-
-    <!-- À propos -->
-    <section id="about" aria-labelledby="about-title">
-        <h2 id="about-title">À propos</h2>
-        <p>Cobalith Studio est une association loi 1901 dédiée à la création de jeux vidéo originaux et immersifs. Fondée en 2025, elle regroupe des développeurs, artistes, scénaristes et compositeurs partageant une passion commune : créer des expériences mémorables.</p>
-        <p>Nous explorons des mécaniques de jeu innovantes, des univers narratifs forts et une esthétique marquée. Notre objectif : repousser les limites de l’indé.</p>
-    </section>
-
-    <!-- Notre Jeu -->
-    <section id="projects" aria-labelledby="projects-title">
-        <h2 id="projects-title">Notre Jeu</h2>
-        <div class="project-grid">
-            <!-- Facette 1 : Création et Recettes -->
-            <article class="project-card" aria-labelledby="proj1-title" aria-describedby="proj1-desc">
-                <img src="recettes.png" alt="Création et expérimentation de recettes d'alcools" />
-                <div class="project-content">
-                    <h3 id="proj1-title">Laboratoire de Recettes</h3>
-                    <p id="proj1-desc">
-                        Expérimentez et combinez ingrédients pour inventer des boissons uniques.
-                        Chaque création influe sur arômes, effets et rareté dans un univers immersif.
-                    </p>
-                </div>
-            </article>
-
-            <!-- Facette 2 : Gestion et Défis -->
-            <article class="project-card" aria-labelledby="proj2-title" aria-describedby="proj2-desc">
-                <img src="gestion.png" alt="Gestion et défis économiques autour de la production d'alcools" />
-                <div class="project-content">
-                    <h3 id="proj2-title">Gestion et Stratégie</h3>
-                    <p id="proj2-desc">
-                        Produisez, gérez vos stocks et affrontez la concurrence. Chaque décision
-                        impacte votre réputation et vos profits dans un monde où tout a un prix.
-                    </p>
-                </div>
-            </article>
-
-            <!-- Facette 3 : Simulateur interactif -->
-            <article class="project-card" aria-labelledby="proj3-title" aria-describedby="proj3-desc">
-                <img src="simulateur-demo.png" alt="Simulateur interactif de création et gestion d'alcools" />
-                <div class="project-content">
-                    <h3 id="proj3-title">Simulateur Interactif</h3>
-                    <p id="proj3-desc">
-                        Testez nos mécaniques de jeu directement via le simulateur en ligne.
-                        Découvrez un aperçu du gameplay avant la sortie officielle.
-                    </p>
-                    <p>
-                        <a href="simulateur.html" style="color:#00b4a3; font-weight:bold; text-decoration:underline;">
-                            Accéder au simulateur
-                        </a>
-                    </p>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" aria-labelledby="contact-title">
-        <h2 id="contact-title">Contact</h2>
-
-        <!-- Email (corrigé) -->
-        <p>
-            <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="#00b4a3" aria-hidden="true" focusable="false">
-                <path d="M2 6c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6zm2 0l8 6 8-6H4z"/>
-            </svg>
-            Email: <a href="mailto:contact@cobalithstudio.fr">contact@cobalithstudio.fr</a>
-        </p>
-
-        <!-- LinkedIn (original) -->
-        <p>
-            <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="#00b4a3" aria-hidden="true" focusable="false">
-                <path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 24V7.98h4V24h-4zM7.5 7.98h3.8v2.16h.05c.53-1 1.84-2.06 3.8-2.06 4.06 0 4.8 2.68 4.8 6.16V24h-4v-6.84c0-1.63-.03-3.72-2.3-3.72s-2.65 1.8-2.65 3.6V24h-4V7.98z"/>
-            </svg>
-            LinkedIn: <a href="https://www.linkedin.com/company/cobalith-studio">Cobalith Studio</a>
-        </p>
-
-        <!-- Instagram (original) -->
-        <p>
-            <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="#00b4a3" aria-hidden="true" focusable="false">
-                <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5A4.25 4.25 0 0020.5 16.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm4.75-.25a1 1 0 110 2 1 1 0 010-2z"/>
-            </svg>
-            Instagram: <a href="https://instagram.com/cobalithstudio">@cobalithstudio</a>
-        </p>
-
-        <!-- Discord (original) -->
-        <p>
-            <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="#00b4a3" aria-hidden="true" focusable="false">
-                <path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.078.037 13.744 13.744 0 00-.605 1.243 18.89 18.89 0 00-5.658 0 13.64 13.64 0 00-.617-1.243.077.077 0 00-.078-.037 19.736 19.736 0 00-4.885 1.515.069.069 0 00-.031.027C.533 9.045-.32 13.579.099 18.057a.084.084 0 00.031.058 19.9 19.9 0 006.043 3.073.077.077 0 00.084-.027c.465-.64.874-1.313 1.225-2.02a.076.076 0 00-.041-.105 13.348 13.348 0 01-1.905-.914.077.077 0 01-.008-.129c.127-.096.254-.192.377-.29a.074.074 0 01.077-.01c4.004 1.83 8.352 1.83 12.309 0a.074.074 0 01.078.01c.123.098.25.194.377.29a.077.077 0 01-.006.129 12.62 12.62 0 01-1.911.914.076.076 0 00-.039.105c.36.707.77 1.38 1.225 2.02a.077.077 0 00.084.027 19.888 19.888 0 006.043-3.073.077.077 0 00.031-.058c.5-5.177-.838-9.668-3.548-13.661a.061.061 0 00-.03-.028zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.953 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.947 2.419-2.157 2.419z"/>
-            </svg>
-            Discord: <a href="https://discord.gg/yKXXXunr">Rejoignez-nous</a>
-        </p>
-
-        <!-- Téléphone (inchangé) -->
-        <p>
-            <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="#00b4a3" aria-hidden="true" focusable="false">
-                <path d="M6.5 10.5a15 15 0 007 7l2-2a1 1 0 011.2-.2c1.2.5 2.6.8 4 .8a1 1 0 011 1v3a1 1 0 01-1 1A17 17 0 013 6a1 1 0 011-1h3a1 1 0 011 1c0 1.4.3 2.8.8 4a1 1 0 01-.2 1.2l-2 2z"/>
-            </svg>
-            Téléphone: <a href="tel:+33123456789">+33 1 23 45 67 89</a>
-        </p>
-    </section>
-
-    <!-- Mentions légales -->
-    <section id="legal" aria-labelledby="legal-title">
-        <h2 id="legal-title">Mentions légales</h2>
-        <p>Association Cobalith Studio, SIRET 945 406 965 00018</p>
-        <p>Siège social : 91160 Longjumeau, France</p>
-        <p>Site réalisé par Cobalith Studio © 2025</p>
-    </section>
-</main>
-
-<footer>
-    &copy; 2025 Cobalith Studio. Tous droits réservés.
-</footer>
-</body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Cobalith Studio conçoit des expériences de jeu et des simulateurs de production pensés comme de vrais systèmes."
+    />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <title>Cobalith Studio</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

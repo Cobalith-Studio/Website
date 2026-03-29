@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wine Decision Atlas</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div>
+          <p class="eyebrow">Vinification Atlas</p>
+          <h1>Decision Graph by Cepage</h1>
+          <p class="subtitle">
+            Each cepage is mapped to all valid decision paths and final wine categories.
+          </p>
+        </div>
+        <div class="header-meta legend">
+          <span class="legend-item legend-blanc">Blanc</span>
+          <span class="legend-item legend-rouge">Rouge</span>
+          <span class="legend-item legend-rose">Rosé</span>
+          <span class="legend-item legend-vin-orange">Vin Orange</span>
+          <span class="legend-item legend-liquoreux">Liquoreux</span>
+          <span class="legend-item legend-blanc-de-noirs">Blanc de Noirs</span>
+          <span class="legend-item legend-effervescent">Effervescent</span>
+          <span class="legend-item legend-indefini">Indefini</span>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="graph-panel">
+          <div class="graph-header">
+            <label class="group-select">
+              <span>Groupe de cepages</span>
+              <select id="group-select"></select>
+            </label>
+            <div class="context-controls">
+              <label class="group-select">
+                <span>Sol</span>
+                <select id="soil-select"></select>
+              </label>
+              <label class="group-select">
+                <span>Ensoleillement</span>
+                <select id="sun-select"></select>
+              </label>
+              <label class="group-select">
+                <span>Pluie</span>
+                <select id="rain-select"></select>
+              </label>
+            </div>
+            <div class="graph-hint">Click any node to inspect its rules and tags.</div>
+          </div>
+          <div class="graph-shell">
+            <svg id="graph" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Wine decision graph">
+              <defs></defs>
+              <g id="graph-layer">
+                <g id="edges-layer"></g>
+                <g id="nodes-layer"></g>
+              </g>
+            </svg>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./cepages-data.js"></script>
+    <script src="./app.js" defer></script>
+  </body>
+</html>
