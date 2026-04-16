@@ -3,7 +3,7 @@ import SectionHeading from "../ui/SectionHeading";
 
 export default function HighlightGrid() {
   return (
-    <section className="section">
+    <section className="section section--first" id="home-vision">
       <SectionHeading
         kicker="Vision"
         title="Un jeu de gestion qui mise sur la liberté, la progression et le plaisir de jouer ensemble"

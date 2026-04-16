@@ -1,9 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { navigationItems } from "../../data/siteContent";
 
 export default function SiteHeader() {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
-    <header className="site-header-shell">
+    <header className={`site-header-shell${isHomePage ? " site-header-shell--overlay" : ""}`}>
       <div className="site-header">
         <NavLink className="brand" to="/">
           <img src="/logo.png" alt="Cobalith Studio" />

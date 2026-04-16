@@ -90,3 +90,126 @@ export const legalDetails = [
   "91160 Longjumeau, France",
   "© 2026 Cobalith Studio"
 ];
+
+export const aboutRoadmap = [
+  {
+    id: "project-origin",
+    actualDate: "2025-05-30",
+    date: "Mai 2025",
+    title: "Naissance du projet",
+    text: "Le concept du business game coop émergence avec une thématique gestion, production et expérimentation.",
+    detail: "Base posée",
+    status: "done",
+    accent: "mint"
+  },
+  {
+    id: "field-research",
+    actualDate: "2025-06-15",
+    date: "Juin 2025",
+    title: "Recherche terrain",
+    text: "Rencontres en distilleries et brasseries, échanges avec professionnels et enseignants spécialisés en fermentation.",
+    detail: "Observation réelle",
+    status: "done",
+    accent: "gold"
+  },
+  {
+    id: "system-foundations",
+    actualDate: "2025-08-15",
+    date: "Été 2025",
+    title: "Fondations des systèmes",
+    text: "Début des simulateurs et structuration des bases du gameplay en traduisant les processus réels en logique de jeu.",
+    detail: "Premiers systèmes",
+    status: "done",
+    accent: "copper"
+  },
+  {
+    id: "core-development",
+    actualDate: "2026-03-15",
+    date: "Début 2026",
+    title: "Développement cœur (vin)",
+    text: "Implémentation des systèmes clefs : inventaire, interactions, progression, commerce et vinification.",
+    detail: "Production fonctionnelle",
+    status: "done",
+    accent: "mint"
+  },
+  {
+    id: "process-refinement",
+    actualDate: "2026-09-01",
+    date: "Fin 2026",
+    title: "Affinage des processus",
+    text: "Précision des étapes, enrichissement des mécaniques et amélioration globale de la logique de production du vin.",
+    detail: "Approfondissement",
+    status: "planned",
+    accent: "gold"
+  },
+  {
+    id: "first-playable",
+    actualDate: "2027-03-01",
+    date: "Début 2027",
+    title: "Première version jouable",
+    text: "Intégration des premiers visuels, d'une map cohérente et validation d’un gameplay complet fonctionnel.",
+    detail: "Prototype jouable",
+    status: "planned",
+    accent: "copper"
+  },
+  {
+    id: "company-creation",
+    actualDate: "2027-05-01",
+    date: "Printemps 2027",
+    title: "Création du studio",
+    text: "Structuration officielle du projet avec la création d’une société pour encadrer le développement et la publication.",
+    detail: "SASU",
+    status: "planned",
+    accent: "mint"
+  },
+  {
+    id: "steam-page",
+    actualDate: "2027-06-01",
+    date: "Mi 2027",
+    title: "Page Steam en ligne",
+    text: "Première vitrine publique avec visuels et vidéos pour commencer à accumuler visibilité et wishlists.",
+    detail: "Visibilité",
+    status: "planned",
+    accent: "gold"
+  },
+  {
+    id: "global-expansion",
+    actualDate: "2027-11-15",
+    date: "Fin 2027",
+    title: "Extension du jeu",
+    text: "Finalisation du vin et intégration des systèmes bière et spiritueux avec équilibrage global du gameplay.",
+    detail: "Contenu élargi",
+    status: "planned",
+    accent: "copper"
+  },
+  {
+    id: "public-demo",
+    actualDate: "2027-12-15",
+    date: "Hiver 2027",
+    title: "Démo publique",
+    text: "Première version jouable diffusée pour tester l’expérience complète et recueillir des retours.",
+    detail: "Validation terrain",
+    status: "planned",
+    accent: "mint"
+  },
+  {
+    id: "feedback-iteration",
+    actualDate: "2028-01-01",
+    date: "Début 2028",
+    title: "Corrections et ajustements",
+    text: "Analyse des retours joueurs, correction des bugs et ajustements du gameplay pour stabiliser l’expérience avant sortie.",
+    detail: "Polish final",
+    status: "planned",
+    accent: "gold"
+  },
+  {
+    id: "official-release",
+    actualDate: "2028-03-15",
+    date: "Printemps 2028",
+    title: "Sortie officielle",
+    text: "Lancement complet du jeu avec un niveau de finition aligné avec l’ambition du projet.",
+    detail: "Release",
+    status: "planned",
+    accent: "gold"
+  }
+];
