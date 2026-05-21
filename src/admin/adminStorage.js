@@ -17,11 +17,12 @@ function writeJson(key, value) {
 }
 
 export function getStoredAssets() {
-  return readJson(ASSETS_KEY, []);
+  return [];
 }
 
-export function saveStoredAssets(assets) {
-  writeJson(ASSETS_KEY, assets);
+export function clearStoredAssets() {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(ASSETS_KEY);
 }
 
 export function getStoredNotes() {

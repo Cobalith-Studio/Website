@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { fetchAdminCollection, saveAdminCollection } from "./adminCloudStorage";
 import {
+  clearStoredAssets,
   getStoredAssets,
   getStoredNotes,
-  saveStoredAssets,
   saveStoredNotes
 } from "./adminStorage";
 
@@ -24,7 +24,7 @@ export function useStoredAssets() {
       if (result.ok) {
         const nextAssets = result.records;
         didHydrateCloud.current = true;
-        saveStoredAssets(nextAssets);
+        clearStoredAssets();
         setAssets(nextAssets);
       }
 
@@ -42,7 +42,6 @@ export function useStoredAssets() {
   }, []);
 
   useEffect(() => {
-    saveStoredAssets(assets);
     if (!isCloudReady) return;
     if (didHydrateCloud.current) {
       didHydrateCloud.current = false;
