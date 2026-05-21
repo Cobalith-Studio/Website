@@ -21,7 +21,7 @@ import { createAdminId } from "../../admin/adminStorage";
 import { useStoredAssets } from "../../admin/useStoredAdminData";
 
 const CATEGORIES_ALL = ["Toutes", ...ASSET_CATEGORIES];
-const STATUSES_ALL = ["Tous", "missing", "found_pack", "done"];
+const STATUSES_ALL = ["Tous", "missing", "found_pack", "temporary", "done"];
 
 function SpriteUploader({ value, onChange }) {
   const inputRef = useRef(null);

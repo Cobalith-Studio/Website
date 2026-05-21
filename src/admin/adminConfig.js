@@ -9,6 +9,7 @@ export const PHASE_OPTIONS = [
 export const STATUS_CONFIG = {
   missing: { label: "Manquant", className: "admin-status--red", icon: AlertCircle },
   found_pack: { label: "Pack trouvé", className: "admin-status--amber", icon: Clock },
+  temporary: { label: "Temporaire", className: "admin-status--blue", icon: Clock },
   done: { label: "Terminé", className: "admin-status--green", icon: CheckCircle2 }
 };
 
