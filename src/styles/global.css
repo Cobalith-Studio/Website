@@ -1122,6 +1122,69 @@ button, select { font: inherit; }
   color: #ffffff;
 }
 
+.admin-button--danger {
+  border-color: rgba(239, 68, 68, 0.45);
+  background: rgba(239, 68, 68, 0.16);
+  color: #fecaca;
+}
+
+.admin-delete-body {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.25rem;
+  padding: 1rem;
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  border-radius: 0.8rem;
+  background: rgba(15, 23, 42, 0.74);
+}
+
+.admin-delete-icon {
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  flex: 0 0 auto;
+  border-radius: 0.8rem;
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.14);
+}
+
+.admin-delete-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.admin-delete-copy {
+  display: grid;
+  min-width: 0;
+  gap: 0.18rem;
+}
+
+.admin-delete-copy span,
+.admin-delete-copy em,
+.admin-delete-meta {
+  color: #94a3b8;
+  font-size: 0.84rem;
+}
+
+.admin-delete-copy strong {
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.admin-delete-copy em {
+  font-style: normal;
+}
+
+.admin-delete-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: -0.5rem 1.25rem 1.25rem;
+}
+
 .admin-progress-card {
   border-radius: 0.8rem;
   padding: 1rem;
@@ -1432,6 +1495,13 @@ button, select { font: inherit; }
   margin: 0;
   color: #ffffff;
   font-size: 1.05rem;
+}
+
+.admin-modal-subtitle {
+  display: block;
+  margin-top: 0.25rem;
+  color: #64748b;
+  font-size: 0.82rem;
 }
 
 .admin-modal-head button {

@@ -19,10 +19,26 @@ import {
 } from "../../admin/adminConfig";
 import { uploadAdminSprite } from "../../admin/adminCloudStorage";
 import { createAdminId } from "../../admin/adminStorage";
-import { useStoredAssets } from "../../admin/useStoredAdminData";
+import { useDeleteStoredAsset, useStoredAssets } from "../../admin/useStoredAdminData";
 
 const CATEGORIES_ALL = ["Toutes", ...ASSET_CATEGORIES];
 const STATUSES_ALL = ["Tous", "missing", "found_pack", "temporary", "done"];
+const ASSET_SORTER = new Intl.Collator("fr", { numeric: true, sensitivity: "base" });
+
+function normalizeSearch(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+function sortAssets(left, right) {
+  return (
+    ASSET_SORTER.compare(left.category ?? "", right.category ?? "") ||
+    ASSET_SORTER.compare(left.subcategory ?? "", right.subcategory ?? "") ||
+    ASSET_SORTER.compare(left.name_en ?? "", right.name_en ?? "")
+  );
+}
 
 function SpriteUploader({ value, assetId, onChange }) {
   const inputRef = useRef(null);
@@ -242,23 +258,75 @@ function AssetRow({ asset, onEdit, onDelete }) {
   );
 }
 
+function DeleteAssetDialog({ asset, onCancel, onConfirm, isDeleting }) {
+  const status = STATUS_CONFIG[asset.status] ?? STATUS_CONFIG.missing;
+  const StatusIcon = status.icon;
+
+  return (
+    <div className="admin-modal-backdrop">
+      <motion.div className="admin-modal admin-modal--narrow" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}>
+        <div className="admin-modal-head">
+          <div>
+            <h2>Supprimer l'asset</h2>
+            <span className="admin-modal-subtitle">Cette action retire l'asset du cloud.</span>
+          </div>
+          <button type="button" onClick={onCancel} aria-label="Fermer">
+            <X aria-hidden="true" />
+          </button>
+        </div>
+        <div className="admin-delete-body">
+          <span className="admin-delete-icon">
+            <Trash2 aria-hidden="true" />
+          </span>
+          <div className="admin-delete-copy">
+            <span>Asset sélectionné</span>
+            <strong>{asset.name_en}</strong>
+            {asset.name_fr ? <em>{asset.name_fr}</em> : null}
+          </div>
+        </div>
+        <div className="admin-delete-meta">
+          <span>{asset.subcategory || asset.category}</span>
+          <span className={`admin-badge admin-badge--compact ${status.className}`}>
+            <StatusIcon aria-hidden="true" /> {status.label}
+          </span>
+        </div>
+        <div className="admin-modal-actions">
+          <button className="admin-button admin-button--danger" type="button" onClick={onConfirm} disabled={isDeleting}>
+            <Trash2 aria-hidden="true" /> {isDeleting ? "Suppression..." : "Supprimer"}
+          </button>
+          <button className="admin-button" type="button" onClick={onCancel} disabled={isDeleting}>Annuler</button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function AssetManager() {
   const [assets, setAssets] = useStoredAssets();
+  const deleteStoredAsset = useDeleteStoredAsset();
   const [search, setSearch] = useState("");
   const [filterCat, setFilterCat] = useState("Toutes");
   const [filterStatus, setFilterStatus] = useState("Tous");
   const [filterMilestone, setFilterMilestone] = useState("all");
   const [editingAsset, setEditingAsset] = useState(null);
+  const [deletingAsset, setDeletingAsset] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
   const filtered = useMemo(() => assets.filter((asset) => {
-    const query = search.trim().toLowerCase();
-    const matchSearch = !query || asset.name_en?.toLowerCase().includes(query) || asset.name_fr?.toLowerCase().includes(query);
+    const query = normalizeSearch(search.trim());
+    const searchable = normalizeSearch([
+      asset.name_en,
+      asset.name_fr,
+      asset.category,
+      asset.subcategory
+    ].filter(Boolean).join(" "));
+    const matchSearch = !query || searchable.includes(query);
     const matchCat = filterCat === "Toutes" || asset.category === filterCat;
     const matchStatus = filterStatus === "Tous" || asset.status === filterStatus;
     const matchMilestone = filterMilestone === "all" || asset.milestone === filterMilestone;
     return matchSearch && matchCat && matchStatus && matchMilestone;
-  }), [assets, filterCat, filterMilestone, filterStatus, search]);
+  }).sort(sortAssets), [assets, filterCat, filterMilestone, filterStatus, search]);
 
   const grouped = filtered.reduce((acc, asset) => {
     const key = asset.subcategory || asset.category;
@@ -277,6 +345,20 @@ export default function AssetManager() {
     }
     setShowForm(false);
     setEditingAsset(null);
+  }
+
+  async function confirmDeleteAsset() {
+    if (!deletingAsset) return;
+
+    setIsDeleting(true);
+    const result = await deleteStoredAsset(deletingAsset.id);
+
+    if (result.ok) {
+      setAssets((current) => current.filter((asset) => asset.id !== deletingAsset.id));
+      setDeletingAsset(null);
+    }
+
+    setIsDeleting(false);
   }
 
   return (
@@ -340,7 +422,7 @@ export default function AssetManager() {
                     key={asset.id}
                     asset={asset}
                     onEdit={() => { setEditingAsset(asset); setShowForm(true); }}
-                    onDelete={(id) => setAssets((current) => current.filter((asset) => asset.id !== id))}
+                    onDelete={() => setDeletingAsset(asset)}
                   />
                 ))}
               </div>
@@ -357,6 +439,14 @@ export default function AssetManager() {
       <AnimatePresence>
         {showForm ? (
           <AssetForm asset={editingAsset} onClose={() => { setShowForm(false); setEditingAsset(null); }} onSave={saveAsset} />
+        ) : null}
+        {deletingAsset ? (
+          <DeleteAssetDialog
+            asset={deletingAsset}
+            onCancel={() => setDeletingAsset(null)}
+            onConfirm={confirmDeleteAsset}
+            isDeleting={isDeleting}
+          />
         ) : null}
       </AnimatePresence>
     </main>

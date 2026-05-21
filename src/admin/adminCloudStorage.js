@@ -61,6 +61,27 @@ export async function saveAdminCollection(collection, records) {
   return { ok: true, unavailable: false };
 }
 
+export async function deleteAdminRecord(collection, id) {
+  if (!supabase) {
+    return { ok: false, unavailable: true };
+  }
+
+  const { error } = await supabase
+    .from(ADMIN_RECORDS_TABLE)
+    .delete()
+    .eq("collection", collection)
+    .eq("id", id);
+
+  if (error) {
+    if (!isCloudUnavailable(error)) {
+      console.error(`Unable to delete admin ${collection} record`, error);
+    }
+    return { ok: false, unavailable: isCloudUnavailable(error) };
+  }
+
+  return { ok: true, unavailable: false };
+}
+
 function sanitizeCloudPayload(collection, record) {
   if (collection !== "assets") {
     return record;

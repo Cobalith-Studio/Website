@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { fetchAdminCollection, saveAdminCollection } from "./adminCloudStorage";
+import { deleteAdminRecord, fetchAdminCollection, saveAdminCollection } from "./adminCloudStorage";
 import {
   clearStoredAssets,
   getStoredAssets,
@@ -62,6 +62,10 @@ export function useStoredAssets() {
   }, [assets, isCloudReady]);
 
   return [assets, setAssets, syncState];
+}
+
+export function useDeleteStoredAsset() {
+  return (id) => deleteAdminRecord("assets", id);
 }
 
 export function useStoredNotes() {
