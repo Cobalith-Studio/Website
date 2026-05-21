@@ -1,8 +1,10 @@
 import { NavLink, useLocation } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
 import { navigationItems } from "../../data/siteContent";
 
 export default function SiteHeader() {
   const location = useLocation();
+  const { isTeamMember, user } = useAuth();
   const isHomePage = location.pathname === "/";
 
   return (
@@ -22,6 +24,12 @@ export default function SiteHeader() {
               {item.label}
             </NavLink>
           ))}
+          <NavLink
+            to={isTeamMember ? "/equipe" : "/connexion"}
+            className={({ isActive }) => `nav-link${isActive ? " is-active" : ""}`}
+          >
+            {isTeamMember ? "Équipe" : user ? "Compte" : "Connexion"}
+          </NavLink>
         </nav>
       </div>
     </header>

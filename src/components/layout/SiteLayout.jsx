@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import SiteFooter from "./SiteFooter";
+import Footer from "./Footer";
 import SiteHeader from "./SiteHeader";
 
 export default function SiteLayout() {
@@ -9,7 +9,7 @@ export default function SiteLayout() {
       <main>
         <Outlet />
       </main>
-      <SiteFooter />
+      <Footer />
     </div>
   );
 }

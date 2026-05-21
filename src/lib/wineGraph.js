@@ -708,6 +708,20 @@ export function getWineGraphModel(context, selectedGroupId) {
   };
 }
 
+let defaultWineGraphModel = null;
+
+export function peekDefaultWineGraphModel() {
+  return defaultWineGraphModel;
+}
+
+export function getDefaultWineGraphModel() {
+  if (!defaultWineGraphModel) {
+    defaultWineGraphModel = getWineGraphModel(createDefaultContext(), "");
+  }
+
+  return defaultWineGraphModel;
+}
+
 export function createEdgePath(edge, nodeMap) {
   const from = nodeMap.get(edge.from);
   const to = nodeMap.get(edge.to);

@@ -1,31 +1,58 @@
-import { useEffect, useState } from "react";
-import { flushSync } from "react-dom";
+import { useEffect, useMemo, useState } from "react";
 import CustomSelect from "../ui/CustomSelect";
 import {
   createEdgePath,
+  getDefaultWineGraphModel,
   getWineGraphModel,
-  outputClassName
+  outputClassName,
+  peekDefaultWineGraphModel
 } from "../../lib/wineGraph";
-import { createDefaultContext } from "../../lib/wineEngine";
+import { createDefaultContext, getContextFields } from "../../lib/wineEngine";
 
-export default function WineSimulator() {
-  const [context, setContext] = useState(createDefaultContext);
+function isDefaultContext(context, defaultContext) {
+  return Object.keys(defaultContext).every((key) => context[key] === defaultContext[key]);
+}
+
+function scheduleAfterPaint(callback) {
+  let secondFrame = 0;
+  const firstFrame = window.requestAnimationFrame(() => {
+    secondFrame = window.requestAnimationFrame(callback);
+  });
+
+  return () => {
+    window.cancelAnimationFrame(firstFrame);
+    window.cancelAnimationFrame(secondFrame);
+  };
+}
+
+export default function WineSimulator({ shouldLoadGraph = true }) {
+  const defaultContext = useMemo(() => createDefaultContext(), []);
+  const contextFields = useMemo(() => getContextFields(), []);
+  const [context, setContext] = useState(defaultContext);
   const [selectedGroupId, setSelectedGroupId] = useState("");
-  const [model, setModel] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [model, setModel] = useState(() => peekDefaultWineGraphModel());
+  const [isLoading, setIsLoading] = useState(() => !peekDefaultWineGraphModel());
 
   useEffect(() => {
-    let cancelled = false;
-    setIsLoading(true);
-    let frameId = 0;
-    let timerId = 0;
+    if (!shouldLoadGraph) {
+      return undefined;
+    }
 
-    frameId = window.requestAnimationFrame(() => {
+    let cancelled = false;
+    let timerId = 0;
+    setIsLoading(true);
+
+    const cancelScheduledWork = scheduleAfterPaint(() => {
       timerId = window.setTimeout(() => {
-        const nextModel = getWineGraphModel(context, selectedGroupId);
+        const shouldUseDefaultModel = selectedGroupId === "" && isDefaultContext(context, defaultContext);
+        const nextModel = shouldUseDefaultModel
+          ? getDefaultWineGraphModel()
+          : getWineGraphModel(context, selectedGroupId);
+
         if (cancelled) {
           return;
         }
+
         setModel(nextModel);
         setIsLoading(false);
       }, 0);
@@ -33,43 +60,22 @@ export default function WineSimulator() {
 
     return () => {
       cancelled = true;
-      window.cancelAnimationFrame(frameId);
+      cancelScheduledWork();
       window.clearTimeout(timerId);
     };
-  }, [context, selectedGroupId]);
+  }, [context, defaultContext, selectedGroupId, shouldLoadGraph]);
 
   function updateContext(key, value) {
-    flushSync(() => {
-      setIsLoading(true);
-    });
-
-    window.requestAnimationFrame(() => {
-      setContext((current) => ({ ...current, [key]: value }));
-    });
+    setIsLoading(true);
+    setContext((current) => ({ ...current, [key]: value }));
   }
 
   function updateGroup(groupId) {
-    flushSync(() => {
-      setIsLoading(true);
-    });
-
-    window.requestAnimationFrame(() => {
-      setSelectedGroupId(groupId);
-    });
+    setIsLoading(true);
+    setSelectedGroupId(groupId);
   }
 
-  if (!model) {
-    return (
-      <div className="wine-graph-layout">
-        <section className="panel compact-panel wine-graph-loader-panel">
-          <div className="graph-loading-state">
-            <div className="graph-loading-spinner" aria-hidden="true" />
-            <p>Chargement du graphe de vinification...</p>
-          </div>
-        </section>
-      </div>
-    );
-  }
+  const groupOptions = model?.groups.map((group) => ({ value: group.id, label: group.label })) ?? [];
 
   return (
     <div className="wine-graph-layout">
@@ -79,7 +85,7 @@ export default function WineSimulator() {
         </div>
 
         <div className="field-grid field-grid-compact">
-          {model.contextFields.map((field) => (
+          {contextFields.map((field) => (
             <label className="field" key={field.key}>
               <span>{field.label}</span>
               <CustomSelect
@@ -92,9 +98,11 @@ export default function WineSimulator() {
           <label className="field">
             <span>Groupe de cépages</span>
             <CustomSelect
-              value={model.activeGroup?.id ?? ""}
+              value={model?.activeGroup?.id ?? ""}
               onChange={updateGroup}
-              options={model.groups.map((group) => ({ value: group.id, label: group.label }))}
+              options={groupOptions}
+              placeholder={shouldLoadGraph && isLoading ? "Chargement..." : "Choisir"}
+              disabled={!model}
             />
           </label>
         </div>
@@ -106,53 +114,60 @@ export default function WineSimulator() {
             <p className="panel-kicker">Arbre</p>
           </div>
 
-          <div className={`graph-canvas-shell${isLoading ? " is-loading" : ""}`}>
-            {isLoading ? (
+          <div className={`graph-canvas-shell${shouldLoadGraph && isLoading ? " is-loading" : ""}`}>
+            {shouldLoadGraph && isLoading ? (
               <div className="graph-loading-overlay" aria-hidden="true">
                 <div className="graph-loading-spinner" />
               </div>
             ) : null}
 
-            <svg className="wine-graph-canvas" viewBox={model.graph.viewBox} preserveAspectRatio="xMinYMin meet">
-              <defs>
-                <marker id="wine-arrow" viewBox="0 0 10 10" refX="0.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" className="graph-arrow-head" />
-                </marker>
-              </defs>
+            {model ? (
+              <svg className="wine-graph-canvas" viewBox={model.graph.viewBox} preserveAspectRatio="xMinYMin meet">
+                <defs>
+                  <marker id="wine-arrow" viewBox="0 0 10 10" refX="0.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" className="graph-arrow-head" />
+                  </marker>
+                </defs>
 
-              {model.graph.edges.map((edge) => (
-                <path
-                  key={edge.id}
-                  d={createEdgePath(edge, model.graph.nodeMap)}
-                  className="graph-edge"
-                  markerEnd="url(#wine-arrow)"
-                />
-              ))}
+                {model.graph.edges.map((edge) => (
+                  <path
+                    key={edge.id}
+                    d={createEdgePath(edge, model.graph.nodeMap)}
+                    className="graph-edge"
+                    markerEnd="url(#wine-arrow)"
+                  />
+                ))}
 
-              {model.graph.nodes.map((node) => (
-                <g
-                  key={node.id}
-                  className={`graph-render-node graph-render-node--${node.type}${
-                    node.type === "bottle" && node.output ? ` graph-render-node--${outputClassName(node.output)}` : ""
-                  }`}
-                  transform={`translate(${node.x}, ${node.y})`}
-                >
-                  <rect width={node.width} height={node.height} rx="12" ry="12" />
-                  <text x="12" y="22" className="graph-label">
-                    {node.lines.map((line, index) => (
-                      <tspan
-                        key={`${node.id}-${line}-${index}`}
-                        x="12"
-                        dy={index === 0 ? "0" : "14"}
-                        className={index === 0 ? "graph-label-title" : "graph-label-detail"}
-                      >
-                        {line}
-                      </tspan>
-                    ))}
-                  </text>
-                </g>
-              ))}
-            </svg>
+                {model.graph.nodes.map((node) => (
+                  <g
+                    key={node.id}
+                    className={`graph-render-node graph-render-node--${node.type}${
+                      node.type === "bottle" && node.output ? ` graph-render-node--${outputClassName(node.output)}` : ""
+                    }`}
+                    transform={`translate(${node.x}, ${node.y})`}
+                  >
+                    <rect width={node.width} height={node.height} rx="12" ry="12" />
+                    <text x="12" y="22" className="graph-label">
+                      {node.lines.map((line, index) => (
+                        <tspan
+                          key={`${node.id}-${line}-${index}`}
+                          x="12"
+                          dy={index === 0 ? "0" : "14"}
+                          className={index === 0 ? "graph-label-title" : "graph-label-detail"}
+                        >
+                          {line}
+                        </tspan>
+                      ))}
+                    </text>
+                  </g>
+                ))}
+              </svg>
+            ) : (
+              <div className="graph-loading-state">
+                <div className="graph-loading-spinner" aria-hidden="true" />
+                <p>{shouldLoadGraph ? "Chargement du graphe de vinification..." : "Préparation du graphe..."}</p>
+              </div>
+            )}
           </div>
 
           <div className="graph-legend">

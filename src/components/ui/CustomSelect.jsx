@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function CustomSelect({ value, onChange, options, placeholder }) {
+export default function CustomSelect({ value, onChange, options, placeholder, disabled = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRef(null);
   const current = options.find((option) => option.value === value) ?? null;
@@ -34,6 +34,7 @@ export default function CustomSelect({ value, onChange, options, placeholder }) 
         onClick={() => setIsOpen((currentState) => !currentState)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
+        disabled={disabled}
       >
         <span>{current?.label ?? placeholder ?? "Choisir"}</span>
         <span className="custom-select-chevron" aria-hidden="true">
