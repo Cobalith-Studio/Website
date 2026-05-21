@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ChevronLeft,
+  Copy,
   ExternalLink,
   ImageIcon,
   Package,
@@ -220,7 +221,7 @@ function AssetForm({ asset, onClose, onSave }) {
   );
 }
 
-function AssetRow({ asset, onEdit, onDelete }) {
+function AssetRow({ asset, onEdit, onDuplicate, onDelete }) {
   const status = STATUS_CONFIG[asset.status] ?? STATUS_CONFIG.missing;
   const StatusIcon = status.icon;
   const milestone = asset.milestone ? MILESTONE_CONFIG[asset.milestone] : null;
@@ -250,7 +251,10 @@ function AssetRow({ asset, onEdit, onDelete }) {
         <span className={`admin-badge ${status.className}`}>
           <StatusIcon aria-hidden="true" /> {status.label}
         </span>
-        <button className="admin-row-delete" type="button" onClick={(event) => { event.stopPropagation(); onDelete(asset.id); }} aria-label="Supprimer">
+        <button className="admin-row-tool" type="button" onClick={(event) => { event.stopPropagation(); onDuplicate(asset); }} aria-label="Dupliquer">
+          <Copy aria-hidden="true" />
+        </button>
+        <button className="admin-row-tool admin-row-tool--danger" type="button" onClick={(event) => { event.stopPropagation(); onDelete(asset.id); }} aria-label="Supprimer">
           <Trash2 aria-hidden="true" />
         </button>
       </span>
@@ -347,6 +351,18 @@ export default function AssetManager() {
     setEditingAsset(null);
   }
 
+  function duplicateAsset(asset) {
+    const nextAsset = {
+      ...asset,
+      id: createAdminId("asset"),
+      name_en: `${asset.name_en || "Asset"} copy`,
+      name_fr: asset.name_fr ? `${asset.name_fr} copie` : "",
+      icon_path: asset.icon_path ?? ""
+    };
+
+    setAssets((current) => [nextAsset, ...current]);
+  }
+
   async function confirmDeleteAsset() {
     if (!deletingAsset) return;
 
@@ -422,6 +438,7 @@ export default function AssetManager() {
                     key={asset.id}
                     asset={asset}
                     onEdit={() => { setEditingAsset(asset); setShowForm(true); }}
+                    onDuplicate={duplicateAsset}
                     onDelete={() => setDeletingAsset(asset)}
                   />
                 ))}

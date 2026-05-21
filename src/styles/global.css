@@ -1433,12 +1433,12 @@ button, select { font: inherit; }
 }
 
 .admin-pack-link svg,
-.admin-row-delete svg {
+.admin-row-tool svg {
   width: 0.85rem;
   height: 0.85rem;
 }
 
-.admin-row-delete {
+.admin-row-tool {
   border: 0;
   background: transparent;
   color: #475569;
@@ -1447,11 +1447,15 @@ button, select { font: inherit; }
   transition: 180ms ease;
 }
 
-.admin-row:hover .admin-row-delete {
+.admin-row:hover .admin-row-tool {
   opacity: 1;
 }
 
-.admin-row-delete:hover {
+.admin-row-tool:hover {
+  color: #93c5fd;
+}
+
+.admin-row-tool--danger:hover {
   color: #fb7185;
 }
 
