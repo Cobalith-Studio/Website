@@ -23,12 +23,6 @@ import { useStoredAssets } from "../../admin/useStoredAdminData";
 
 const CATEGORIES_ALL = ["Toutes", ...ASSET_CATEGORIES];
 const STATUSES_ALL = ["Tous", "missing", "found_pack", "temporary", "done"];
-const SYNC_STATUS_CLASS = {
-  loading: "admin-status--amber",
-  saving: "admin-status--amber",
-  synced: "admin-status--green",
-  local: "admin-status--red"
-};
 
 function SpriteUploader({ value, assetId, onChange }) {
   const inputRef = useRef(null);
@@ -246,7 +240,7 @@ function AssetRow({ asset, onEdit, onDelete }) {
 }
 
 export default function AssetManager() {
-  const [assets, setAssets, syncState] = useStoredAssets();
+  const [assets, setAssets] = useStoredAssets();
   const [search, setSearch] = useState("");
   const [filterCat, setFilterCat] = useState("Toutes");
   const [filterStatus, setFilterStatus] = useState("Tous");
@@ -293,9 +287,6 @@ export default function AssetManager() {
           <div>
             <h1>Asset Manager</h1>
             <p>{assets.length} assets · {progress}% terminés</p>
-            <span className={`admin-badge admin-badge--compact ${SYNC_STATUS_CLASS[syncState.status] ?? "admin-status--slate"}`}>
-              {syncState.label}
-            </span>
           </div>
           <button className="admin-button admin-button--primary admin-head-action" type="button" onClick={() => { setEditingAsset(null); setShowForm(true); }}>
             <Plus aria-hidden="true" /> Nouvel asset
