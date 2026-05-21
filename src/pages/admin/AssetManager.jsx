@@ -28,6 +28,7 @@ function SpriteUploader({ value, assetId, onChange }) {
   const inputRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [compressionInfo, setCompressionInfo] = useState(null);
+  const [uploadError, setUploadError] = useState("");
 
   async function handleFileChange(event) {
     const file = event.target.files?.[0];
@@ -35,6 +36,7 @@ function SpriteUploader({ value, assetId, onChange }) {
 
     setIsLoading(true);
     setCompressionInfo(null);
+    setUploadError("");
 
     try {
       const upload = await uploadAdminSprite(file, assetId);
@@ -45,6 +47,7 @@ function SpriteUploader({ value, assetId, onChange }) {
       }
     } catch (error) {
       console.error("Unable to process sprite", error);
+      setUploadError(error.message || "Upload impossible.");
     } finally {
       setIsLoading(false);
       event.target.value = "";
@@ -71,7 +74,7 @@ function SpriteUploader({ value, assetId, onChange }) {
             Supprimer
           </button>
         ) : null}
-        <p>{compressionInfo || "PNG, JPG, WebP · compressé avant sauvegarde"}</p>
+        <p>{uploadError || compressionInfo || "PNG, JPG, WebP · compressé avant sauvegarde"}</p>
       </div>
       <input ref={inputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handleFileChange} />
     </div>

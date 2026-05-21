@@ -138,11 +138,7 @@ export async function uploadAdminSprite(file, assetId) {
   const compressed = await compressSpriteFile(file);
 
   if (!supabase) {
-    return {
-      ...compressed,
-      path: null,
-      url: await blobToDataUrl(compressed.blob)
-    };
+    throw new Error("Supabase n'est pas configuré pour uploader le sprite.");
   }
 
   const safeAssetId = assetId || `asset-${Date.now()}`;
@@ -157,11 +153,7 @@ export async function uploadAdminSprite(file, assetId) {
 
   if (error) {
     console.error("Unable to upload admin sprite", error);
-    return {
-      ...compressed,
-      path: null,
-      url: await blobToDataUrl(compressed.blob)
-    };
+    throw new Error(error.message || "Upload du sprite refusé par Supabase Storage.");
   }
 
   const { data } = supabase.storage.from(ADMIN_ASSET_BUCKET).getPublicUrl(path);
@@ -171,13 +163,4 @@ export async function uploadAdminSprite(file, assetId) {
     path,
     url: data.publicUrl
   };
-}
-
-function blobToDataUrl(blob) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result));
-    reader.onerror = () => reject(new Error("Lecture du sprite impossible."));
-    reader.readAsDataURL(blob);
-  });
 }
