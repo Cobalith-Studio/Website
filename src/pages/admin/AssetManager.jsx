@@ -17,31 +17,38 @@ import {
   MILESTONE_CONFIG,
   STATUS_CONFIG
 } from "../../admin/adminConfig";
+import { uploadAdminSprite } from "../../admin/adminCloudStorage";
 import { createAdminId } from "../../admin/adminStorage";
 import { useStoredAssets } from "../../admin/useStoredAdminData";
 
 const CATEGORIES_ALL = ["Toutes", ...ASSET_CATEGORIES];
 const STATUSES_ALL = ["Tous", "missing", "found_pack", "temporary", "done"];
 
-function SpriteUploader({ value, onChange }) {
+function SpriteUploader({ value, assetId, onChange }) {
   const inputRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [compressionInfo, setCompressionInfo] = useState(null);
 
-  function handleFileChange(event) {
+  async function handleFileChange(event) {
     const file = event.target.files?.[0];
     if (!file) return;
 
     setIsLoading(true);
-    const reader = new FileReader();
-    reader.onload = () => {
-      onChange(String(reader.result));
+    setCompressionInfo(null);
+
+    try {
+      const upload = await uploadAdminSprite(file, assetId);
+      onChange(upload);
+      if (upload.sizeBefore && upload.sizeAfter) {
+        const saved = Math.max(0, Math.round((1 - upload.sizeAfter / upload.sizeBefore) * 100));
+        setCompressionInfo(`${Math.round(upload.sizeAfter / 1024)} Ko · -${saved}%`);
+      }
+    } catch (error) {
+      console.error("Unable to process sprite", error);
+    } finally {
       setIsLoading(false);
-    };
-    reader.onerror = () => {
-      setIsLoading(false);
-    };
-    reader.readAsDataURL(file);
-    event.target.value = "";
+      event.target.value = "";
+    }
   }
 
   return (
@@ -60,11 +67,11 @@ function SpriteUploader({ value, onChange }) {
           {value ? "Changer l'image" : "Uploader un sprite PNG"}
         </button>
         {value ? (
-          <button className="admin-sprite-remove" type="button" onClick={() => onChange("")}>
+          <button className="admin-sprite-remove" type="button" onClick={() => onChange(null)}>
             Supprimer
           </button>
         ) : null}
-        <p>PNG, JPG · affiché en 32×32px</p>
+        <p>{compressionInfo || "PNG, JPG, WebP · compressé avant sauvegarde"}</p>
       </div>
       <input ref={inputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handleFileChange} />
     </div>
@@ -76,6 +83,7 @@ function AssetForm({ asset, onClose, onSave }) {
     asset
       ? { ...asset }
       : {
+          id: createAdminId("asset"),
           name_en: "",
           name_fr: "",
           category: "Basics",
@@ -85,13 +93,18 @@ function AssetForm({ asset, onClose, onSave }) {
           pack_url: "",
           pack_name: "",
           notes: "",
-          icon_name: ""
+          icon_name: "",
+          icon_path: ""
         }
   );
   const [errors, setErrors] = useState({});
 
   function updateField(key, value) {
     setForm((current) => ({ ...current, [key]: value }));
+  }
+
+  function updateFields(fields) {
+    setForm((current) => ({ ...current, ...fields }));
   }
 
   function handleSave() {
@@ -149,7 +162,18 @@ function AssetForm({ asset, onClose, onSave }) {
           </label>
           <label className="admin-form-wide">
             <span>Image / Sprite</span>
-            <SpriteUploader value={form.icon_name} onChange={(value) => updateField("icon_name", value)} />
+            <SpriteUploader
+              value={form.icon_name}
+              assetId={form.id}
+              onChange={(upload) => {
+                if (!upload) {
+                  updateFields({ icon_name: "", icon_path: "" });
+                  return;
+                }
+
+                updateFields({ icon_name: upload.url, icon_path: upload.path ?? "" });
+              }}
+            />
           </label>
           <label>
             <span>Nom du pack</span>
@@ -246,7 +270,7 @@ export default function AssetManager() {
     if (editingAsset) {
       setAssets((current) => current.map((asset) => asset.id === editingAsset.id ? { ...asset, ...form } : asset));
     } else {
-      setAssets((current) => [{ ...form, id: createAdminId("asset") }, ...current]);
+      setAssets((current) => [{ ...form, id: form.id ?? createAdminId("asset") }, ...current]);
     }
     setShowForm(false);
     setEditingAsset(null);
