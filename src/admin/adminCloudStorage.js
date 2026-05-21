@@ -39,7 +39,6 @@ export async function saveAdminCollection(collection, records) {
     return { ok: false, unavailable: true };
   }
 
-  const nextIds = records.map((record) => record.id);
   const rows = records.map((record) => ({
     collection,
     id: record.id,
@@ -57,22 +56,6 @@ export async function saveAdminCollection(collection, records) {
       }
       return { ok: false, unavailable: isCloudUnavailable(error) };
     }
-  }
-
-  const deleteQuery = supabase
-    .from(ADMIN_RECORDS_TABLE)
-    .delete()
-    .eq("collection", collection);
-
-  const { error: deleteError } = nextIds.length
-    ? await deleteQuery.not("id", "in", `(${nextIds.map((id) => `"${id}"`).join(",")})`)
-    : await deleteQuery;
-
-  if (deleteError) {
-    if (!isCloudUnavailable(deleteError)) {
-      console.error(`Unable to prune admin ${collection}`, deleteError);
-    }
-    return { ok: false, unavailable: isCloudUnavailable(deleteError) };
   }
 
   return { ok: true, unavailable: false };

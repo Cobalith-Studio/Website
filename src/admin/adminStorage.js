@@ -1,5 +1,3 @@
-import { seedAssets } from "./adminConfig";
-
 const ASSETS_KEY = "cobalith_admin_assets";
 const NOTES_KEY = "cobalith_admin_notes";
 
@@ -18,15 +16,8 @@ function writeJson(key, value) {
   window.localStorage.setItem(key, JSON.stringify(value));
 }
 
-export function mergeSeedAssets(storedAssets) {
-  const storedById = new Map(storedAssets.map((asset) => [asset.id, asset]));
-  const mergedSeed = seedAssets.map((asset) => storedById.get(asset.id) ?? asset);
-  const customAssets = storedAssets.filter((asset) => !seedAssets.some((seedAsset) => seedAsset.id === asset.id));
-  return [...mergedSeed, ...customAssets];
-}
-
 export function getStoredAssets() {
-  return mergeSeedAssets(readJson(ASSETS_KEY, []));
+  return readJson(ASSETS_KEY, []);
 }
 
 export function saveStoredAssets(assets) {

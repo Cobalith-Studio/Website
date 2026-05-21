@@ -3,7 +3,6 @@ import { fetchAdminCollection, saveAdminCollection } from "./adminCloudStorage";
 import {
   getStoredAssets,
   getStoredNotes,
-  mergeSeedAssets,
   saveStoredAssets,
   saveStoredNotes
 } from "./adminStorage";
@@ -11,6 +10,7 @@ import {
 export function useStoredAssets() {
   const [assets, setAssets] = useState(() => getStoredAssets());
   const [isCloudReady, setIsCloudReady] = useState(false);
+  const [syncState, setSyncState] = useState({ status: "loading", label: "Connexion cloud..." });
   const didHydrateCloud = useRef(false);
 
   useEffect(() => {
@@ -21,14 +21,17 @@ export function useStoredAssets() {
 
       if (!isMounted) return;
 
-      if (result.ok && result.records.length) {
-        const nextAssets = mergeSeedAssets(result.records);
+      if (result.ok) {
+        const nextAssets = result.records;
         didHydrateCloud.current = true;
         saveStoredAssets(nextAssets);
         setAssets(nextAssets);
       }
 
       setIsCloudReady(result.ok);
+      setSyncState(result.ok
+        ? { status: "synced", label: result.records.length ? "Cloud synchronisé" : "Cloud prêt" }
+        : { status: "local", label: "Sauvegarde locale" });
     }
 
     hydrateCloudAssets();
@@ -45,15 +48,27 @@ export function useStoredAssets() {
       didHydrateCloud.current = false;
       return;
     }
-    saveAdminCollection("assets", assets);
+    let isCurrent = true;
+    setSyncState({ status: "saving", label: "Sauvegarde cloud..." });
+    saveAdminCollection("assets", assets).then((result) => {
+      if (!isCurrent) return;
+      setSyncState(result.ok
+        ? { status: "synced", label: "Cloud synchronisé" }
+        : { status: "local", label: "Sauvegarde locale" });
+    });
+
+    return () => {
+      isCurrent = false;
+    };
   }, [assets, isCloudReady]);
 
-  return [assets, setAssets];
+  return [assets, setAssets, syncState];
 }
 
 export function useStoredNotes() {
   const [notes, setNotes] = useState(() => getStoredNotes());
   const [isCloudReady, setIsCloudReady] = useState(false);
+  const [syncState, setSyncState] = useState({ status: "loading", label: "Connexion cloud..." });
   const didHydrateCloud = useRef(false);
 
   useEffect(() => {
@@ -71,6 +86,9 @@ export function useStoredNotes() {
       }
 
       setIsCloudReady(result.ok);
+      setSyncState(result.ok
+        ? { status: "synced", label: result.records.length ? "Cloud synchronisé" : "Cloud prêt" }
+        : { status: "local", label: "Sauvegarde locale" });
     }
 
     hydrateCloudNotes();
@@ -87,8 +105,19 @@ export function useStoredNotes() {
       didHydrateCloud.current = false;
       return;
     }
-    saveAdminCollection("notes", notes);
+    let isCurrent = true;
+    setSyncState({ status: "saving", label: "Sauvegarde cloud..." });
+    saveAdminCollection("notes", notes).then((result) => {
+      if (!isCurrent) return;
+      setSyncState(result.ok
+        ? { status: "synced", label: "Cloud synchronisé" }
+        : { status: "local", label: "Sauvegarde locale" });
+    });
+
+    return () => {
+      isCurrent = false;
+    };
   }, [notes, isCloudReady]);
 
-  return [notes, setNotes];
+  return [notes, setNotes, syncState];
 }
