@@ -30,7 +30,33 @@ export async function fetchAdminCollection(collection) {
   return {
     ok: true,
     unavailable: false,
-    records: data.map((row) => ({ id: row.id, ...row.payload }))
+    records: data.map((row) => normalizeCloudPayload(collection, { id: row.id, ...row.payload }))
+  };
+}
+
+export async function fetchAdminRecord(collection, id) {
+  if (!supabase) {
+    return { ok: false, unavailable: true, record: null };
+  }
+
+  const { data, error } = await supabase
+    .from(ADMIN_RECORDS_TABLE)
+    .select("id, payload")
+    .eq("collection", collection)
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    if (!isCloudUnavailable(error)) {
+      console.error(`Unable to fetch admin ${collection}/${id}`, error);
+    }
+    return { ok: false, unavailable: isCloudUnavailable(error), record: null };
+  }
+
+  return {
+    ok: true,
+    unavailable: false,
+    record: data ? normalizeCloudPayload(collection, { id: data.id, ...data.payload }) : null
   };
 }
 
@@ -56,6 +82,29 @@ export async function saveAdminCollection(collection, records) {
       }
       return { ok: false, unavailable: isCloudUnavailable(error) };
     }
+  }
+
+  return { ok: true, unavailable: false };
+}
+
+export async function saveAdminRecord(collection, record) {
+  if (!supabase) {
+    return { ok: false, unavailable: true };
+  }
+
+  const { error } = await supabase
+    .from(ADMIN_RECORDS_TABLE)
+    .upsert({
+      collection,
+      id: record.id,
+      payload: sanitizeCloudPayload(collection, record)
+    }, { onConflict: "collection,id" });
+
+  if (error) {
+    if (!isCloudUnavailable(error)) {
+      console.error(`Unable to save admin ${collection}/${record.id}`, error);
+    }
+    return { ok: false, unavailable: isCloudUnavailable(error) };
   }
 
   return { ok: true, unavailable: false };
@@ -93,8 +142,20 @@ function sanitizeCloudPayload(collection, record) {
 
   return {
     ...record,
-    icon_name: "",
-    icon_path: ""
+    icon_name: ""
+  };
+}
+
+function normalizeCloudPayload(collection, record) {
+  if (collection !== "assets" || record.icon_name || !record.icon_path || !supabase) {
+    return record;
+  }
+
+  const { data } = supabase.storage.from(ADMIN_ASSET_BUCKET).getPublicUrl(record.icon_path);
+
+  return {
+    ...record,
+    icon_name: data.publicUrl
   };
 }
 

@@ -138,3 +138,19 @@ Dans `Authentication > URL Configuration` :
 Avec GitHub Pages en sous-chemin, utiliser :
 
 - `https://TON_USER.github.io/TON_REPO/#/connexion`
+
+## 5. Cloud admin complet
+
+Pour que les outils admin ne stockent rien en local et utilisent Supabase pour tout :
+
+1. Ouvrir `SQL Editor` dans Supabase.
+2. Exécuter d'abord tout le SQL des sections 2 et 3 ci-dessus.
+3. Exécuter ensuite le fichier [admin-cloud-supabase.sql](./admin-cloud-supabase.sql).
+
+Ce script crée :
+
+- `public.admin_records` pour `assets`, `notes`, `kanban_cards`, `kanban_settings`, `budget_entries`, `admin_preferences`
+- les policies RLS limitées aux profils `admin` approuvés
+- le bucket Storage public `admin-assets`
+- les policies Storage pour upload/update/delete réservées aux admins
+- les settings initiaux du Kanban avec les tags par défaut

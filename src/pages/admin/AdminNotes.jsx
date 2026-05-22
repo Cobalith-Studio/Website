@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, Edit2, Pin, Plus, Save, StickyNote, Trash2, X } from "lucide-react";
 import { NOTE_CATEGORIES } from "../../admin/adminConfig";
 import { createAdminId } from "../../admin/adminStorage";
-import { useStoredNotes } from "../../admin/useStoredAdminData";
+import { useDeleteStoredNote, useStoredNotes } from "../../admin/useStoredAdminData";
 
 function NoteForm({ note, onClose, onSave }) {
   const [form, setForm] = useState(note ?? { title: "", content: "", category: "general", pinned: false });
@@ -75,6 +75,7 @@ function NoteCard({ note, onEdit, onDelete }) {
 
 export default function AdminNotes() {
   const [notes, setNotes] = useStoredNotes();
+  const deleteStoredNote = useDeleteStoredNote();
   const [filterCat, setFilterCat] = useState("all");
   const [showForm, setShowForm] = useState(false);
   const [editingNote, setEditingNote] = useState(null);
@@ -94,8 +95,11 @@ export default function AdminNotes() {
     setEditingNote(null);
   }
 
-  function deleteNote(id) {
-    setNotes((current) => current.filter((note) => note.id !== id));
+  async function deleteNote(id) {
+    const result = await deleteStoredNote(id);
+    if (result.ok) {
+      setNotes((current) => current.filter((note) => note.id !== id));
+    }
   }
 
   return (

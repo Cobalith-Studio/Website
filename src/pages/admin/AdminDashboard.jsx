@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -6,15 +5,16 @@ import {
   Boxes,
   CheckCircle2,
   ChevronRight,
+  Layout,
   LayoutDashboard,
   Package,
-  Settings,
   StickyNote,
-  TrendingUp
+  TrendingUp,
+  Wallet
 } from "lucide-react";
-import { useAuth } from "../../auth/AuthContext";
 import { PHASE_OPTIONS } from "../../admin/adminConfig";
-import { useStoredAssets } from "../../admin/useStoredAdminData";
+import { useStoredAdminPreferences, useStoredAssets } from "../../admin/useStoredAdminData";
+import { useAuth } from "../../auth/AuthContext";
 
 const tools = [
   {
@@ -32,6 +32,22 @@ const tools = [
     description: "Bloc-notes libre pour idées, décisions et suivi du projet",
     path: "/equipe/notes",
     tone: "amber"
+  },
+  {
+    id: "kanban",
+    icon: Layout,
+    label: "Kanban",
+    description: "Tableau de tâches par statut, priorité, dates et domaines",
+    path: "/equipe/kanban",
+    tone: "blue"
+  },
+  {
+    id: "budget",
+    icon: Wallet,
+    label: "Budget & Dépenses",
+    description: "Suivi des postes budgétaires, factures, recettes et jalons",
+    path: "/equipe/budget",
+    tone: "green"
   }
 ];
 
@@ -80,11 +96,11 @@ function AdminToolCard({ tool, index }) {
 export default function AdminDashboard() {
   const { profile, user } = useAuth();
   const [assets] = useStoredAssets();
-  const [targetPhase, setTargetPhase] = useState(() => window.localStorage.getItem("admin_target_phase") || "vertical_slice");
+  const [preferences, setPreferences] = useStoredAdminPreferences();
+  const targetPhase = preferences.targetPhase;
 
   function setPhase(phase) {
-    setTargetPhase(phase);
-    window.localStorage.setItem("admin_target_phase", phase);
+    setPreferences((current) => ({ ...current, targetPhase: phase }));
   }
 
   const phaseInfo = PHASE_OPTIONS.find((phase) => phase.value === targetPhase) ?? PHASE_OPTIONS[0];
@@ -137,26 +153,6 @@ export default function AdminDashboard() {
             {tools.map((tool, index) => (
               <AdminToolCard key={tool.id} tool={tool} index={index} />
             ))}
-
-            <article className="admin-tool-card admin-tool-card--disabled">
-              <span className="admin-tool-icon">
-                <TrendingUp aria-hidden="true" />
-              </span>
-              <span className="admin-tool-copy">
-                <strong>Roadmap Tracker <em>Bientôt</em></strong>
-                <span>Suivi des jalons du projet (Vertical Slice, Démo, Sortie)</span>
-              </span>
-            </article>
-
-            <article className="admin-tool-card admin-tool-card--disabled">
-              <span className="admin-tool-icon">
-                <Settings aria-hidden="true" />
-              </span>
-              <span className="admin-tool-copy">
-                <strong>Budget & Dépenses <em>Bientôt</em></strong>
-                <span>Suivi des postes budgétaires (packs, sous-traitance, frais...)</span>
-              </span>
-            </article>
           </div>
         </section>
 
