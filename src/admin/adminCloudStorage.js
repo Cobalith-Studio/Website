@@ -1,6 +1,7 @@
 import { supabase } from "../lib/supabaseClient";
 
 export const ADMIN_ASSET_BUCKET = "admin-assets";
+export const ADMIN_INVOICE_BUCKET = "admin-invoices";
 
 const ADMIN_RECORDS_TABLE = "admin_records";
 const CLOUD_UNAVAILABLE_CODES = new Set(["42P01", "42501", "PGRST205"]);
@@ -245,4 +246,77 @@ export async function uploadAdminSprite(file, assetId) {
     path,
     url: data.publicUrl
   };
+}
+
+export async function uploadBudgetInvoice(file, entryId) {
+  if (!supabase) {
+    throw new Error("Supabase n'est pas configure pour uploader la facture.");
+  }
+
+  if (!file || file.type !== "application/pdf") {
+    throw new Error("La facture doit etre un fichier PDF.");
+  }
+
+  const maxSize = 15 * 1024 * 1024;
+  if (file.size > maxSize) {
+    throw new Error("Le PDF depasse la limite de 15 Mo.");
+  }
+
+  const safeEntryId = String(entryId || `budget-${Date.now()}`).replace(/[^a-zA-Z0-9_-]/g, "-");
+  const safeName = file.name.replace(/[^\w.-]+/g, "-").replace(/-+/g, "-") || "facture.pdf";
+  const path = `budget/${safeEntryId}/${Date.now()}-${safeName}`;
+
+  const { error } = await supabase.storage
+    .from(ADMIN_INVOICE_BUCKET)
+    .upload(path, file, {
+      cacheControl: "31536000",
+      contentType: "application/pdf",
+      upsert: true
+    });
+
+  if (error) {
+    console.error("Unable to upload budget invoice", error);
+    throw new Error(error.message || "Upload de la facture refuse par Supabase Storage.");
+  }
+
+  return {
+    invoice_path: path,
+    invoice_name: file.name,
+    invoice_size: file.size,
+    invoice_mime_type: file.type
+  };
+}
+
+export async function createBudgetInvoiceSignedUrl(path) {
+  if (!supabase || !path) {
+    return null;
+  }
+
+  const { data, error } = await supabase.storage
+    .from(ADMIN_INVOICE_BUCKET)
+    .createSignedUrl(path, 60 * 60);
+
+  if (error) {
+    console.error("Unable to create budget invoice signed URL", error);
+    throw new Error(error.message || "Ouverture de la facture impossible.");
+  }
+
+  return data?.signedUrl || null;
+}
+
+export async function deleteBudgetInvoice(path) {
+  if (!supabase || !path) {
+    return { ok: false, unavailable: !supabase };
+  }
+
+  const { error } = await supabase.storage
+    .from(ADMIN_INVOICE_BUCKET)
+    .remove([path]);
+
+  if (error) {
+    console.error("Unable to delete budget invoice", error);
+    return { ok: false, unavailable: isCloudUnavailable(error) };
+  }
+
+  return { ok: true, unavailable: false };
 }

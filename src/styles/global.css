@@ -2769,7 +2769,7 @@ button, select { font: inherit; }
 
 .budget-stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 1rem;
   margin-bottom: 2rem;
 }
@@ -2976,6 +2976,16 @@ button, select { font: inherit; }
   background: rgba(30, 41, 59, 0.62);
 }
 
+.budget-row.is-missing-invoice {
+  border-color: rgba(239, 68, 68, 0.53);
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.18);
+}
+
+.budget-row.is-missing-invoice:hover {
+  border-color: rgba(248, 113, 113, 0.72);
+  background: rgba(127, 29, 29, 0.2);
+}
+
 .budget-row-dot {
   width: 0.62rem;
   height: 0.62rem;
@@ -3004,6 +3014,12 @@ button, select { font: inherit; }
   font-size: 0.95rem;
 }
 
+.budget-row-alert {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: #f87171;
+}
+
 .budget-row-title em,
 .budget-row-meta {
   color: #64748b;
@@ -3011,14 +3027,21 @@ button, select { font: inherit; }
   font-style: normal;
 }
 
-.budget-row-meta a {
+.budget-row-meta a,
+.budget-row-meta button {
   display: inline-flex;
   align-items: center;
   gap: 0.2rem;
+  border: 0;
+  padding: 0;
+  background: transparent;
   color: #60a5fa;
+  font: inherit;
+  cursor: pointer;
 }
 
-.budget-row-meta a:hover {
+.budget-row-meta a:hover,
+.budget-row-meta button:hover {
   color: #93c5fd;
 }
 
@@ -3085,6 +3108,27 @@ button, select { font: inherit; }
 .budget-status--planned { color: #94a3b8; background: rgba(100, 116, 139, 0.14); border-color: rgba(100, 116, 139, 0.3); }
 .budget-status--paid { color: #4ade80; background: rgba(34, 197, 94, 0.14); border-color: rgba(34, 197, 94, 0.3); }
 .budget-status--cancelled { color: #f87171; background: rgba(239, 68, 68, 0.14); border-color: rgba(239, 68, 68, 0.3); }
+.budget-status--refunded { color: #fbbf24; background: rgba(245, 158, 11, 0.14); border-color: rgba(245, 158, 11, 0.3); }
+
+.budget-row-error {
+  color: #fb7185;
+}
+
+.budget-missing-invoice-label {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  border-radius: 0.5rem;
+  padding: 0.16rem 0.46rem;
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+  font-weight: 650;
+}
+
+.budget-financed-summary {
+  color: #fbbf24;
+  font-weight: 650;
+}
 
 .budget-milestone--primary { color: #60a5fa; background: rgba(59, 130, 246, 0.14); border-color: rgba(59, 130, 246, 0.3); }
 .budget-milestone--purple { color: #c084fc; background: rgba(168, 85, 247, 0.14); border-color: rgba(168, 85, 247, 0.3); }
@@ -3124,6 +3168,13 @@ button, select { font: inherit; }
   font-size: 1rem;
 }
 
+.budget-modal-subtitle {
+  display: block;
+  margin-top: 0.2rem;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
 .budget-modal-head button {
   display: inline-flex;
   border: 0;
@@ -3147,6 +3198,10 @@ button, select { font: inherit; }
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.8rem;
+}
+
+.budget-form-grid--single {
+  grid-template-columns: 1fr;
 }
 
 .budget-field {
@@ -3179,6 +3234,177 @@ button, select { font: inherit; }
 
 .budget-field small {
   color: #fb7185;
+}
+
+.budget-field small.budget-field-hint {
+  color: #64748b;
+}
+
+.budget-linked-expenses {
+  display: grid;
+  gap: 0.5rem;
+  max-height: 13rem;
+  overflow-y: auto;
+  border: 1px solid #1e293b;
+  border-radius: 0.75rem;
+  padding: 0.65rem;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.budget-linked-expense {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid #243244;
+  border-radius: 0.6rem;
+  padding: 0.58rem 0.65rem;
+  background: rgba(30, 41, 59, 0.55);
+}
+
+.budget-linked-expense input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #73f0b5;
+}
+
+.budget-linked-expense span {
+  display: grid;
+  min-width: 0;
+  gap: 0.12rem;
+}
+
+.budget-linked-expense strong {
+  color: #e2e8f0;
+  font-size: 0.84rem;
+  overflow-wrap: anywhere;
+}
+
+.budget-linked-expense em {
+  color: #64748b;
+  font-size: 0.76rem;
+  font-style: normal;
+}
+
+.budget-invoice-uploader {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 5.25rem;
+  border: 1px solid #1e293b;
+  border-radius: 0.75rem;
+  padding: 0.85rem;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.budget-invoice-uploader.is-missing {
+  border-color: rgba(248, 113, 113, 0.34);
+  background: rgba(127, 29, 29, 0.12);
+}
+
+.budget-invoice-tile {
+  width: 4.4rem;
+  height: 4.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border: 1px solid #334155;
+  border-radius: 0.75rem;
+  background: #0f172a;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: 180ms ease;
+}
+
+.budget-invoice-tile:hover {
+  border-color: rgba(36, 99, 235, 0.55);
+  color: #cbd5e1;
+}
+
+.budget-invoice-uploader.is-missing .budget-invoice-tile {
+  border-color: rgba(248, 113, 113, 0.38);
+  color: #f87171;
+}
+
+.budget-invoice-tile svg {
+  width: 1.45rem;
+  height: 1.45rem;
+}
+
+.budget-invoice-copy {
+  display: grid;
+  gap: 0.24rem;
+  min-width: 0;
+}
+
+.budget-invoice-copy strong {
+  color: #e2e8f0;
+  font-size: 0.88rem;
+  overflow-wrap: anywhere;
+}
+
+.budget-invoice-copy p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.76rem;
+}
+
+.budget-invoice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.budget-invoice-actions button {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #60a5fa;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.budget-invoice-actions button:hover {
+  text-decoration: underline;
+}
+
+.budget-invoice-actions .budget-invoice-remove {
+  color: #f87171;
+}
+
+.budget-invoice-uploader input[type="file"] {
+  display: none;
+}
+
+.budget-invoice-modal {
+  width: min(72rem, calc(100vw - 2rem));
+  height: min(48rem, calc(100vh - 2rem));
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid #1e293b;
+  border-radius: 1rem;
+  background: #0f172a;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.62);
+}
+
+.budget-invoice-modal-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.budget-invoice-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #111827;
 }
 
 .budget-segment-row {

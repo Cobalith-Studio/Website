@@ -45,7 +45,7 @@ const tools = [
     id: "budget",
     icon: Wallet,
     label: "Budget & Dépenses",
-    description: "Suivi des postes budgétaires, factures, recettes et jalons",
+    description: "Suivi des postes budgétaires, factures PDF et recettes",
     path: "/equipe/budget",
     tone: "green"
   }
