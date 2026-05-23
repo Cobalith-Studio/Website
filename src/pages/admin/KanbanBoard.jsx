@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import { ArrowUpDown, ChevronLeft, Layout, Plus, Settings, Trash2, X } from "lucide-react";
+import { AlertTriangle, ChevronLeft, Layout, ListFilter, Plus, Settings, Trash2, X } from "lucide-react";
 import { useDeleteStoredKanbanCard, useStoredKanbanCards, useStoredKanbanSettings } from "../../admin/useStoredAdminData";
 import CardForm from "../../components/kanban/CardForm";
 import KanbanCard from "../../components/kanban/KanbanCard";
@@ -13,10 +13,12 @@ import {
 import KanbanSelect from "../../components/kanban/KanbanSelect";
 import KanbanSettings from "../../components/kanban/KanbanSettings";
 
-function KanbanColumn({ column, cards, priorities, tags, onAddCard, onEdit, onDelete, onQuickUpdate, onDropCard, draggingCardId, setDraggingCardId }) {
+function KanbanColumn({ column, cards, priorities, tags, onAddCard, onEdit, onDelete, onQuickUpdate, onDropCard, draggingCardId, setDraggingCardId, quickEditCardId, onQuickEditOpenChange }) {
+  const hasQuickEditOpen = cards.some((card) => card.id === quickEditCardId);
+
   return (
     <section
-      className={`kanban-column ${draggingCardId ? "is-drop-ready" : ""}`}
+      className={`kanban-column ${draggingCardId ? "is-drop-ready" : ""} ${hasQuickEditOpen ? "has-quick-edit-open" : ""}`}
       onDragOver={(event) => event.preventDefault()}
       onDrop={(event) => {
         event.preventDefault();
@@ -46,6 +48,7 @@ function KanbanColumn({ column, cards, priorities, tags, onAddCard, onEdit, onDe
               setDraggingCardId(cardId);
             }}
             onDragEnd={() => setDraggingCardId(null)}
+            onQuickEditOpenChange={onQuickEditOpenChange}
           />
         ))}
 
@@ -101,16 +104,28 @@ export default function KanbanBoard() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [defaultColumn, setDefaultColumn] = useState("todo");
   const [showSettings, setShowSettings] = useState(false);
-  const [sortBy, setSortBy] = useState("order");
+  const [sortBy, setSortBy] = useState("start_date");
+  const [sortDirection, setSortDirection] = useState("desc");
   const priorities = settings.priorities;
   const tags = settings.tags;
   const [draggingCardId, setDraggingCardId] = useState(null);
+  const [quickEditCardId, setQuickEditCardId] = useState(null);
 
   const byColumn = useMemo(() => KANBAN_COLUMNS.reduce((acc, column) => {
     const columnCards = cards.filter((card) => card.column === column.id);
-    acc[column.id] = sortKanbanCards(columnCards, sortBy, priorities);
+    acc[column.id] = sortKanbanCards(columnCards, sortBy, priorities, tags, sortDirection);
     return acc;
-  }, {}), [cards, priorities, sortBy]);
+  }, {}), [cards, priorities, tags, sortBy, sortDirection]);
+
+  const overdueCount = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return cards.filter((card) => (
+      card.due_date
+      && card.column !== "done"
+      && new Date(`${card.due_date}T00:00:00`) < today
+    )).length;
+  }, [cards]);
 
   function openAdd(column) {
     setEditingCard(null);
@@ -146,6 +161,13 @@ export default function KanbanBoard() {
 
   function quickUpdate(id, patch) {
     setCards((current) => current.map((card) => card.id === id ? { ...card, ...patch } : card));
+  }
+
+  function handleQuickEditOpenChange(cardId, open) {
+    setQuickEditCardId((current) => {
+      if (open) return cardId;
+      return current === cardId ? null : current;
+    });
   }
 
   function dropCard(cardId, columnId) {
@@ -185,10 +207,24 @@ export default function KanbanBoard() {
               {byColumn[column.id]?.length || 0}
             </span>
           ))}
+          {overdueCount > 0 ? (
+            <span className="kanban-overdue-stat">
+              <AlertTriangle aria-hidden="true" />
+              {overdueCount} en retard
+            </span>
+          ) : null}
         </div>
 
         <div className="kanban-sort">
-          <ArrowUpDown aria-hidden="true" />
+          <button
+            type="button"
+            className={`kanban-sort-direction ${sortDirection === "desc" ? "is-desc" : ""}`}
+            onClick={() => setSortDirection((current) => current === "asc" ? "desc" : "asc")}
+            aria-label={sortDirection === "asc" ? "Inverser le tri" : "Remettre le tri initial"}
+            title={sortDirection === "asc" ? "Tri normal" : "Tri inversé"}
+          >
+            <ListFilter aria-hidden="true" />
+          </button>
           <KanbanSelect value={sortBy} onChange={setSortBy} options={KANBAN_SORT_OPTIONS} />
         </div>
 
@@ -201,7 +237,7 @@ export default function KanbanBoard() {
       </header>
 
       <div className="kanban-board-scroll">
-        <div className="kanban-board">
+        <div className={`kanban-board ${quickEditCardId ? "has-quick-edit-open" : ""}`}>
           {KANBAN_COLUMNS.map((column) => (
             <KanbanColumn
               key={column.id}
@@ -216,6 +252,8 @@ export default function KanbanBoard() {
               onDropCard={dropCard}
               draggingCardId={draggingCardId}
               setDraggingCardId={setDraggingCardId}
+              quickEditCardId={quickEditCardId}
+              onQuickEditOpenChange={handleQuickEditOpenChange}
             />
           ))}
         </div>

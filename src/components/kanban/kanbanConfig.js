@@ -34,12 +34,11 @@ export const DEFAULT_KANBAN_SETTINGS = {
 };
 
 export const KANBAN_SORT_OPTIONS = [
-  { value: "order", label: "Manuel (drag)" },
+  { value: "order", label: "Modification" },
   { value: "priority", label: "Priorité" },
+  { value: "tag", label: "Tag" },
   { value: "due_date", label: "Date d'échéance" },
-  { value: "start_date", label: "Date de début" },
-  { value: "tag", label: "Tag / Domaine" },
-  { value: "title", label: "Titre A-Z" }
+  { value: "start_date", label: "Date de début" }
 ];
 
 export function formatKanbanDate(dateStr) {
@@ -52,9 +51,16 @@ export function formatKanbanDate(dateStr) {
   return `${day}/${month}/${year}`;
 }
 
-export function sortKanbanCards(cards, sortBy, priorities) {
+export function sortKanbanCards(cards, sortBy, priorities, tags, direction = "asc") {
+  const directionMultiplier = direction === "desc" ? -1 : 1;
+  const byManualOrder = (a, b) => (a.order || 0) - (b.order || 0);
+  const withDirection = (compare) => (a, b) => {
+    const result = compare(a, b);
+    return result === 0 ? byManualOrder(a, b) : result * directionMultiplier;
+  };
+
   if (sortBy === "order") {
-    return [...cards].sort((a, b) => (a.order || 0) - (b.order || 0));
+    return [...cards].sort(withDirection(byManualOrder));
   }
 
   if (sortBy === "priority") {
@@ -62,23 +68,25 @@ export function sortKanbanCards(cards, sortBy, priorities) {
       const priorityIndex = priorities.findIndex((priority) => priority.id === card.priority);
       return priorityIndex === -1 ? priorities.length : priorityIndex;
     };
-    return [...cards].sort((a, b) => index(a) - index(b));
+    return [...cards].sort(withDirection((a, b) => index(a) - index(b)));
+  }
+
+  if (sortBy === "tag") {
+    const index = (card) => {
+      const tagIndex = tags.findIndex((tag) => tag.id === card.tag);
+      return tagIndex === -1 ? tags.length : tagIndex;
+    };
+    return [...cards].sort(withDirection((a, b) => index(a) - index(b)));
   }
 
   if (sortBy === "due_date" || sortBy === "start_date") {
     return [...cards].sort((a, b) => {
+      if (!a[sortBy] && !b[sortBy]) return byManualOrder(a, b);
       if (!a[sortBy]) return 1;
       if (!b[sortBy]) return -1;
-      return a[sortBy].localeCompare(b[sortBy]);
+      const result = a[sortBy].localeCompare(b[sortBy]);
+      return result === 0 ? byManualOrder(a, b) : result * directionMultiplier;
     });
-  }
-
-  if (sortBy === "tag") {
-    return [...cards].sort((a, b) => (a.tag || "").localeCompare(b.tag || ""));
-  }
-
-  if (sortBy === "title") {
-    return [...cards].sort((a, b) => (a.title || "").localeCompare(b.title || ""));
   }
 
   return cards;
