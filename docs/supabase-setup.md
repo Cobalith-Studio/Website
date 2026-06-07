@@ -149,7 +149,7 @@ Pour que les outils admin ne stockent rien en local et utilisent Supabase pour t
 
 Ce script crée :
 
-- `public.admin_records` pour `assets`, `notes`, `kanban_cards`, `kanban_settings`, `budget_entries`, `admin_preferences`
+- `public.admin_records` pour `assets`, `notes`, `kanban_cards`, `kanban_settings`, `budget_entries`, `service_schedules`, `admin_preferences`
 - les policies RLS limitées aux profils `admin` approuvés
 - le bucket Storage public `admin-assets`
 - les policies Storage pour upload/update/delete réservées aux admins
