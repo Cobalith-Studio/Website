@@ -8,7 +8,6 @@ import AdminNotes from "./pages/admin/AdminNotes";
 import AssetManager from "./pages/admin/AssetManager";
 import Budget from "./pages/admin/Budget";
 import KanbanBoard from "./pages/admin/KanbanBoard";
-import ScheduleScanner from "./pages/admin/ScheduleScanner";
 import BeerSimulatorPage from "./pages/BeerSimulatorPage";
 import ContactPage from "./pages/ContactPage";
 import GamePage from "./pages/GamePage";
@@ -83,20 +82,11 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/equipe/planning-service"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <ScheduleScanner />
-            </ProtectedRoute>
-          }
-        />
         <Route path="/admin" element={<Navigate to="/equipe" replace />} />
         <Route path="/admin/assets" element={<Navigate to="/equipe/assets" replace />} />
         <Route path="/admin/notes" element={<Navigate to="/equipe/notes" replace />} />
         <Route path="/admin/kanban" element={<Navigate to="/equipe/kanban" replace />} />
         <Route path="/admin/budget" element={<Navigate to="/equipe/budget" replace />} />
-        <Route path="/admin/planning-service" element={<Navigate to="/equipe/planning-service" replace />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </AnimatePresence>

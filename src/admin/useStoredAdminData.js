@@ -105,14 +105,6 @@ export function useDeleteStoredBudgetEntry() {
   return (id) => deleteAdminRecord("budget_entries", id);
 }
 
-export function useStoredServiceSchedules() {
-  return useCloudCollection("service_schedules");
-}
-
-export function useDeleteStoredServiceSchedule() {
-  return (id) => deleteAdminRecord("service_schedules", id);
-}
-
 export function useStoredKanbanSettings() {
   const [settings, setSettings] = useState(DEFAULT_KANBAN_SETTINGS);
   const [isCloudReady, setIsCloudReady] = useState(false);

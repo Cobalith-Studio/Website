@@ -2067,11 +2067,6 @@ button, select { font: inherit; }
   color: #34d399;
 }
 
-.admin-tool-icon--cyan {
-  background: rgba(6, 182, 212, 0.12);
-  color: #22d3ee;
-}
-
 .admin-tool-copy {
   display: grid;
   gap: 0.42rem;

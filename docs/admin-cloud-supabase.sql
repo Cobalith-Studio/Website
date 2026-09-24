@@ -1,4 +1,4 @@
--- Cloud admin setup for Assets, Notes, Kanban, Budget, Service Schedules and shared admin settings.
+-- Cloud admin setup for Assets, Notes, Kanban, Budget and shared admin settings.
 -- Run this in Supabase SQL Editor after the profiles/is_admin setup from docs/supabase-setup.md.
 
 create or replace function public.set_updated_at()

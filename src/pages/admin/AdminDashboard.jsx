@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import {
   AlertCircle,
   Boxes,
-  CalendarClock,
   CheckCircle2,
   ChevronRight,
   Layout,
@@ -49,14 +48,6 @@ const tools = [
     description: "Suivi des postes budgétaires, factures PDF et recettes",
     path: "/equipe/budget",
     tone: "green"
-  },
-  {
-    id: "planning-service",
-    icon: CalendarClock,
-    label: "Planning Service",
-    description: "Import JSON, correction et vue mobile par semaine",
-    path: "/equipe/planning-service",
-    tone: "cyan"
   }
 ];
 
