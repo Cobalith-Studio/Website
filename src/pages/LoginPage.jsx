@@ -80,6 +80,7 @@ export default function LoginPage() {
           </button>
         </form>
 
+        <p className="auth-switch">Votre e-mail et votre session servent à gérer votre accès. <Link to="/confidentialite">Confidentialité & cookies</Link></p>
         <p className="auth-switch">
           Pas encore de compte équipe ? <Link to="/inscription">Demander un accès</Link>
         </p>

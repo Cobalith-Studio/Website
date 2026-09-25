@@ -46,7 +46,7 @@ export default function SpiritsSimulator() {
         <div className="panel-heading">
           <p className="panel-kicker">Distillation</p>
           <h2>Construction du spiritueux</h2>
-          <p>On reprend les données clés de l’ancienne version: matière première, fermentation, aromatisation, type d’alambic, passes, dilution, élevage, sucre et filtration.</p>
+          <p>Matière première, fermentation, aromatisation, type d’alambic, passes, dilution, élevage, sucre et filtration façonnent le résultat.</p>
         </div>
 
         <div className="beer-section-grid">

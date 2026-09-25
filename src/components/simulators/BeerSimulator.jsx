@@ -161,7 +161,7 @@ export default function BeerSimulator() {
         <div className="panel-heading">
           <p className="panel-kicker">Brassage</p>
           <h2>Construction de la recette</h2>
-          <p>On reprend ici la logique riche de l’ancien simulateur: répartition des malts, houblonnage, levures, fermentation, garde et carbonatation.</p>
+          <p>Répartition des malts, houblonnage, levures, fermentation, garde et carbonatation structurent chaque recette.</p>
         </div>
 
         <div className="beer-section-grid">

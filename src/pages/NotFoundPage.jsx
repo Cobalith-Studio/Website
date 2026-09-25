@@ -1,18 +1,8 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { pageVariants } from "../lib/animations";
-
+import { EditorialLayout } from "../components/editorial/EditorialSite";
 export default function NotFoundPage() {
-  return (
-    <motion.div initial="initial" animate="animate" exit="exit" variants={pageVariants}>
-      <section className="section page-intro narrow-copy">
-        <p className="section-kicker">404</p>
-        <h1>La page demandée n'existe pas.</h1>
-        <p>Vérifier l'URL renseigné en barre de recherche.</p>
-        <Link className="button button-primary" to="/">
-          Retour à l'accueil
-        </Link>
-      </section>
-    </motion.div>
-  );
+ return <EditorialLayout><section className="ce-lost ce-wrap">
+  <div className="ce-lost-copy"><p className="ce-label">404 / HORS DU DOMAINE</p><h1>Un chemin<br /><em>de traverse.</em></h1><p>Cette page est introuvable. Revenons au domaine.</p><div className="ce-lost-actions"><Link className="ce-solid-link" to="/">Retour à l’accueil <span aria-hidden="true">↗</span></Link><Link className="ce-text-link" to="/simulateur">Les simulateurs <span aria-hidden="true">↗</span></Link></div></div>
+  <div className="ce-lost-art" aria-hidden="true"><span>404</span><img src={import.meta.env.BASE_URL + "assets/editorial/domaine.svg"} alt="" /><small>COBALITH STUDIO / RETOUR AU DOMAINE</small></div>
+ </section></EditorialLayout>;
 }

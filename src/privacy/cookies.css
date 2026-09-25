@@ -1,0 +1,24 @@
+.cb-consent-root { font:14px/1.5 'Segoe UI',Arial,sans-serif; color:#25291f; color-scheme:light; }
+.cb-cookie-panel { position:fixed; z-index:1000; bottom:20px; right:20px; width:min(420px,calc(100vw - 40px)); max-height:calc(100svh - 40px); overflow:auto; overscroll-behavior:contain; background:#faf8f2; border:1px solid #c8c7b6; border-top:3px solid #69705b; padding:22px; box-shadow:0 8px 40px #25291f20; }
+.cb-cookie-heading { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+.cb-cookie-heading p { margin:0; font-size:9px; letter-spacing:.15em; font-weight:600; }
+.cb-consent-root .cb-cookie-close { border:0; background:none; color:inherit; padding:0; width:28px; height:28px; font-size:24px; cursor:pointer; }
+.cb-consent-root h2 { margin:10px 0 14px; font:normal 30px/1.1 Georgia,serif; letter-spacing:-.04em; color:inherit; }
+.cb-consent-root p { margin-block:10px; }
+.cb-consent-root .cb-cookie-note { font-size:12px; color:#585e4c; }
+.cb-cookie-policy { display:inline-block; color:#374536; text-decoration:underline; text-underline-offset:3px; font-size:12px; margin-block:6px 14px; }
+.cb-cookie-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.cb-cookie-actions button { color:#faf8f2; background:#374536; border:1px solid #374536; border-radius:2px; padding:12px 8px; font:600 12px/1.4 'Segoe UI',sans-serif; cursor:pointer; }
+.cb-cookie-actions button:hover { background:#25291f; }
+.cb-cookie-custom { width:100%; padding:12px 0 0; border:0; background:none; color:#374536; font:600 12px/1.4 'Segoe UI',sans-serif; text-decoration:underline; text-underline-offset:4px; cursor:pointer; }
+.cb-cookie-categories > div { padding:16px 0; border-top:1px solid #ded5c4; }
+.cb-cookie-categories h3 { font:600 14px/1.4 'Segoe UI',sans-serif; margin:0; }
+.cb-cookie-required { font-size:11px; color:#585e4c; }
+.cb-cookie-categories p { font-size:12px; margin-bottom:0; }
+.cb-cookie-categories label { display:flex; align-items:center; justify-content:space-between; font-weight:600; }
+.cb-cookie-categories input { width:20px; height:20px; accent-color:#374536; }
+.cb-cookie-reopen { position:fixed; bottom:12px; left:12px; z-index:900; border:1px solid #c8c7b6; border-radius:2px; background:#faf8f2; color:#374536; padding:8px 12px; font:12px/1.3 'Segoe UI',sans-serif; cursor:pointer; }
+.cb-consent-root :is(button,a,input):focus-visible { outline:2px solid #5a252b; outline-offset:3px; }
+.cb-consent-root h2:focus { outline:none; }
+.cb-cookie-status { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+@media(max-width:480px) { .cb-cookie-panel { bottom:10px; right:10px; width:calc(100vw - 20px); padding:16px; max-height:calc(100svh - 20px); } .cb-consent-root h2 { font-size:26px; } }

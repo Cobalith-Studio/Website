@@ -5,6 +5,7 @@ import SiteLayout from "./components/layout/SiteLayout";
 import AboutPage from "./pages/AboutPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminNotes from "./pages/admin/AdminNotes";
+import AudienceAnalytics from "./pages/admin/AudienceAnalytics";
 import AssetManager from "./pages/admin/AssetManager";
 import Budget from "./pages/admin/Budget";
 import KanbanBoard from "./pages/admin/KanbanBoard";
@@ -12,6 +13,7 @@ import BeerSimulatorPage from "./pages/BeerSimulatorPage";
 import ContactPage from "./pages/ContactPage";
 import GamePage from "./pages/GamePage";
 import HomePage from "./pages/HomePage";
+import { LegalNoticePage, TermsPage, PrivacyPage } from "./pages/LegalPages";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -38,6 +40,9 @@ export default function App() {
           <Route path="/simulateur/spiritueux" element={<SpiritsSimulatorPage />} />
           <Route path="/a-propos" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/mentions-legales" element={<LegalNoticePage />} />
+          <Route path="/conditions-utilisation" element={<TermsPage />} />
+          <Route path="/confidentialite" element={<PrivacyPage />} />
           <Route path="/connexion" element={<LoginPage />} />
           <Route path="/inscription" element={<RegisterPage />} />
           <Route path="/index.html" element={<Navigate to="/" replace />} />
@@ -82,11 +87,20 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/equipe/audience"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AudienceAnalytics />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/admin" element={<Navigate to="/equipe" replace />} />
         <Route path="/admin/assets" element={<Navigate to="/equipe/assets" replace />} />
         <Route path="/admin/notes" element={<Navigate to="/equipe/notes" replace />} />
         <Route path="/admin/kanban" element={<Navigate to="/equipe/kanban" replace />} />
         <Route path="/admin/budget" element={<Navigate to="/equipe/budget" replace />} />
+        <Route path="/admin/audience" element={<Navigate to="/equipe/audience" replace />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </AnimatePresence>

@@ -39,24 +39,6 @@ export const gamePillars = [
   }
 ];
 
-export const showcaseCards = [
-  {
-    title: "Recettes, variétés et outils",
-    text: "Le plaisir vient autant de la liberté offerte au joueur que de la satisfaction de maîtriser des recettes plus fines, des équipements plus poussés et des matières premières plus rares.",
-    image: "/recettes.png"
-  },
-  {
-    title: "Un tycoon social et vivant",
-    text: "Commerce, demande, offre, prestige, clientèle, concurrence et prise de notoriété donnent au jeu une dimension business claire, avec assez de friction pour créer des choix intéressants.",
-    image: "/gestion.png"
-  },
-  {
-    title: "Une base documentaire sérieuse",
-    text: "Le projet s'appuie sur une recherche terrain réelle : rencontres, visites, documentation technique et échanges avec des professionnels pour garder une base crédible sans perdre le fun.",
-    image: "/simulateur-demo.png"
-  }
-];
-
 export const simulatorCards = [
   {
     title: "Vinification",
@@ -83,12 +65,6 @@ export const contactDetails = [
   { label: "LinkedIn", value: "linkedin.com/company/cobalith-studio", href: "https://www.linkedin.com/company/cobalith-studio" },
   { label: "Instagram", value: "@cobalithstudio", href: "https://instagram.com/cobalithstudio" },
   { label: "Discord", value: "discord.gg/yKXXXunr", href: "https://discord.gg/yKXXXunr" }
-];
-
-export const legalDetails = [
-  "SIRET 945 406 965 00018",
-  "91160 Longjumeau, France",
-  "© 2026 Cobalith Studio"
 ];
 
 export const aboutRoadmap = [

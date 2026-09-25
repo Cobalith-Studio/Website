@@ -1,0 +1,66 @@
+.audience-admin { min-height:100svh; }
+.audience-header { display:grid; grid-template-columns:auto 1fr auto; gap:28px; align-items:start; margin-bottom:28px; }
+.audience-header > a { display:inline-flex; align-items:center; gap:8px; color:#94a3b8; font-size:.85rem; padding-top:8px; }
+.audience-header > a svg { width:17px; }
+.audience-header p { margin:0 0 8px; color:#60a5fa; font-size:.72rem; font-weight:700; letter-spacing:.14em; }
+.audience-header h1 { margin:0; font-size:clamp(2rem,4vw,3.6rem); }
+.audience-header span { display:block; margin-top:8px; color:#94a3b8; }
+.audience-controls { display:flex; gap:10px; }
+.audience-controls > div { display:flex; padding:3px; border:1px solid rgba(148,163,184,.18); border-radius:10px; background:#0f172a; }
+.audience-controls button { border:0; border-radius:7px; padding:9px 12px; color:#94a3b8; background:transparent; cursor:pointer; }
+.audience-controls button.is-active,.audience-controls button:hover { color:white; background:#1e293b; }
+.audience-controls > button { border:1px solid rgba(148,163,184,.18); }
+.audience-controls svg { width:18px; }
+.audience-setup { margin:0 0 22px; padding:16px 18px; border:1px solid rgba(251,191,36,.28); border-radius:12px; color:#fef3c7; background:rgba(245,158,11,.08); }
+.audience-setup p { margin:5px 0 0; color:#cbd5e1; }
+.audience-setup--error { border-color:rgba(248,113,113,.3); background:rgba(239,68,68,.08); }
+.audience-kpis { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:12px; margin-bottom:18px; }
+.audience-kpis article,.audience-panel { border:1px solid rgba(148,163,184,.13); border-radius:14px; background:linear-gradient(145deg,rgba(30,41,59,.82),rgba(15,23,42,.9)); box-shadow:0 14px 30px rgba(2,6,23,.14); }
+.audience-kpis article { position:relative; display:flex; flex-direction:column; min-height:130px; padding:18px; }
+.audience-kpis svg { width:20px; color:#60a5fa; margin-bottom:auto; }
+.audience-kpis span { color:#94a3b8; font-size:.78rem; }
+.audience-kpis strong { margin-top:5px; font-size:1.55rem; }
+.audience-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; align-items:start; }
+.audience-panel { min-width:0; padding:22px; }
+.audience-panel--wide { grid-column:span 2; }
+.audience-panel > header { display:flex; justify-content:space-between; gap:16px; align-items:baseline; margin-bottom:20px; }
+.audience-panel h2 { margin:0; font-size:1.05rem; }
+.audience-panel header span { color:#64748b; font-size:.72rem; }
+.audience-bars { display:grid; gap:12px; }
+.audience-bar { display:grid; grid-template-columns:minmax(90px,1fr) minmax(70px,1.4fr) auto; gap:10px; align-items:center; font-size:.78rem; }
+.audience-bar > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#cbd5e1; }
+.audience-bar > i { height:6px; border-radius:4px; background:#1e293b; overflow:hidden; }
+.audience-bar b { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#3b82f6,#60a5fa); }
+.audience-bar strong { min-width:24px; text-align:right; }
+.audience-empty { color:#64748b; }
+.audience-donut-wrap { display:grid; grid-template-columns:130px 1fr; gap:24px; align-items:center; }
+.audience-donut { width:130px; aspect-ratio:1; display:grid; place-items:center; border-radius:50%; position:relative; }
+.audience-donut::after { content:""; position:absolute; inset:22px; border-radius:50%; background:#101827; }
+.audience-donut span { position:relative; z-index:1; display:grid; text-align:center; font-size:1.35rem; font-weight:700; }
+.audience-donut small { color:#64748b; font-size:.62rem; font-weight:500; }
+.audience-legend p { display:grid; grid-template-columns:auto 1fr auto; gap:8px; align-items:center; margin:7px 0; color:#cbd5e1; font-size:.75rem; }
+.audience-legend i { width:8px; height:8px; border-radius:50%; }
+.audience-trend { width:100%; height:230px; overflow:visible; }
+.audience-trend polyline { fill:none; vector-effect:non-scaling-stroke; }
+.audience-trend-grid { stroke:#334155; stroke-width:1; }
+.audience-trend-views { stroke:#60a5fa; stroke-width:2.2; }
+.audience-trend-users { stroke:#34d399; stroke-width:1.7; }
+.audience-trend-labels,.audience-trend-key { display:flex; justify-content:space-between; color:#64748b; font-size:.72rem; }
+.audience-trend-key { justify-content:flex-start; gap:24px; margin-top:14px; }
+.audience-trend-key span::before { content:""; display:inline-block; width:14px; height:2px; margin-right:7px; vertical-align:middle; background:#60a5fa; }
+.audience-trend-key span+span::before { background:#34d399; }
+.audience-live { min-height:230px; display:grid; place-content:center; justify-items:center; }
+.audience-live i { width:12px; height:12px; border-radius:50%; background:#34d399; box-shadow:0 0 0 7px rgba(52,211,153,.12); }
+.audience-live strong { margin-top:20px; font-size:3.8rem; line-height:1; }
+.audience-live span { color:#94a3b8; margin-top:8px; }
+.audience-hours { height:210px; display:grid; grid-template-columns:repeat(24,1fr); gap:5px; align-items:end; }
+.audience-hours div { height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; }
+.audience-hours i { width:100%; min-height:3px; border-radius:3px 3px 0 0; background:linear-gradient(#60a5fa,#2563eb); }
+.audience-hours span { height:18px; margin-top:7px; color:#64748b; font-size:.62rem; }
+.audience-vitals { display:grid; gap:12px; }
+.audience-vitals article { display:grid; grid-template-columns:1fr auto; align-items:baseline; padding:14px; border-radius:9px; background:#0f172a; }
+.audience-vitals article > span { color:#94a3b8; font-size:.78rem; }
+.audience-vitals strong { font-size:1.2rem; }
+.audience-vitals small { grid-column:1/-1; color:#64748b; margin-top:4px; }
+@media(max-width:1200px) { .audience-kpis { grid-template-columns:repeat(3,1fr); } .audience-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:760px) { .audience-header { grid-template-columns:1fr; } .audience-controls { justify-content:space-between; } .audience-kpis,.audience-grid { grid-template-columns:1fr; } .audience-panel--wide { grid-column:auto; } .audience-kpis { grid-template-columns:repeat(2,minmax(0,1fr)); } .audience-donut-wrap { grid-template-columns:110px 1fr; gap:14px; } .audience-donut { width:110px; } .audience-bar { grid-template-columns:minmax(80px,1fr) minmax(50px,1fr) auto; } }

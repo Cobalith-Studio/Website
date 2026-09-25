@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   AlertCircle,
+  BarChart3,
   Boxes,
   CheckCircle2,
   ChevronRight,
@@ -48,6 +49,14 @@ const tools = [
     description: "Suivi des postes budgétaires, factures PDF et recettes",
     path: "/equipe/budget",
     tone: "green"
+  },
+  {
+    id: "audience",
+    icon: BarChart3,
+    label: "Analyse d’audience",
+    description: "Fréquentation, parcours, appareils, campagnes et performances",
+    path: "/equipe/audience",
+    tone: "blue"
   }
 ];
 
