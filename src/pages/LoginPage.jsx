@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { isSupabaseConfigured, supabase } from "../lib/supabaseClient";
 
+const MAX_EMAIL_LENGTH = 320;
+const MAX_PASSWORD_LENGTH = 1024;
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,9 +26,15 @@ export default function LoginPage() {
       return;
     }
 
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail || normalizedEmail.length > MAX_EMAIL_LENGTH || password.length > MAX_PASSWORD_LENGTH) {
+      setError("Identifiants invalides.");
+      return;
+    }
+
     setIsSubmitting(true);
     const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
+      email: normalizedEmail,
       password
     });
     setIsSubmitting(false);
@@ -58,6 +67,7 @@ export default function LoginPage() {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               autoComplete="email"
+              maxLength={MAX_EMAIL_LENGTH}
               required
             />
           </label>
@@ -68,6 +78,7 @@ export default function LoginPage() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               autoComplete="current-password"
+              maxLength={MAX_PASSWORD_LENGTH}
               required
             />
           </label>

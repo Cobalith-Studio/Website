@@ -119,17 +119,17 @@
 
 /* Navigation and footer. */
 .cobalith-editorial .ce-header {
-  position: relative;
-  z-index: 20;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   background: #ebe8da;
   border-bottom: 1px solid #7b806c26;
 }
 .cobalith-editorial.ce-is-home .ce-header {
-  position: absolute;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  background: transparent;
+  background: rgb(235 232 218 / 0.92);
+  backdrop-filter: blur(12px);
 }
 .cobalith-editorial .ce-header-inner {
   min-height: 98px;
@@ -187,7 +187,7 @@
 .cobalith-editorial .ce-footer {
   background: #20271f;
   color: #e4e3d2;
-  padding-top: 32px;
+  padding-top: 10px;
 }
 .cobalith-editorial .ce-footer-word {
   font:
@@ -198,8 +198,8 @@
 }
 .cobalith-editorial .ce-footer-links {
   gap: 35px;
-  padding-block: 22px;
-  margin-top: 20px;
+  padding-block: 14px;
+  margin-top: 0;
   border-block: 1px solid #737e6255;
   font-size: 10px;
   letter-spacing: 0.1em;
@@ -213,7 +213,7 @@
 }
 .cobalith-editorial .ce-footer-small {
   gap: 25px;
-  padding-block: 22px;
+  padding-block: 12px 14px;
   font-size: 10px;
   color: #b7bea9;
 }
@@ -734,6 +734,8 @@
 }
 .cobalith-editorial
   :is(
+    .roadmap-step--reached .roadmap-step-marker,
+    .roadmap-mobile-card--reached .roadmap-mobile-dot,
     .roadmap-step--current .roadmap-step-marker,
     .roadmap-mobile-card--current .roadmap-mobile-dot
   ) {
@@ -743,6 +745,8 @@
 }
 .cobalith-editorial
   :is(
+    .roadmap-step--reached .roadmap-step-card,
+    .roadmap-mobile-card--reached .roadmap-mobile-copy,
     .roadmap-step--current .roadmap-step-card,
     .roadmap-mobile-card--current .roadmap-mobile-copy
   ) {
@@ -1265,7 +1269,7 @@
     justify-content: space-between;
   }
   .cobalith-editorial .ce-footer {
-    padding-top: 26px;
+    padding-top: 8px;
   }
   .cobalith-editorial .ce-footer-word {
     font-size: clamp(36px, 9vw, 54px);
@@ -1273,8 +1277,8 @@
   .cobalith-editorial .ce-footer-links {
     font-size: 8px;
     gap: 20px;
-    margin-top: 20px;
-    padding-block: 25px;
+    margin-top: 0;
+    padding-block: 12px;
   }
   .cobalith-editorial .ce-footer-links nav {
     gap: 19px;
@@ -1718,6 +1722,8 @@
 .cobalith-editorial
   .roadmap-shell
   :is(
+    .roadmap-step--reached .roadmap-step-card,
+    .roadmap-mobile-card--reached .roadmap-mobile-copy,
     .roadmap-step--current .roadmap-step-card,
     .roadmap-mobile-card--current .roadmap-mobile-copy
   ) {
@@ -1727,6 +1733,8 @@
 .cobalith-editorial
   .roadmap-shell
   :is(
+    .roadmap-step--reached .roadmap-step-marker,
+    .roadmap-mobile-card--reached .roadmap-mobile-dot,
     .roadmap-step--current .roadmap-step-marker,
     .roadmap-mobile-card--current .roadmap-mobile-dot
   ) {
@@ -1781,8 +1789,11 @@
 .cobalith-editorial .ce-policy-copy h2 { font:normal 32px/1.2 Georgia,serif; margin:0 0 22px; }
 .cobalith-editorial .ce-policy-copy p { margin:0 0 16px; }
 .cobalith-editorial .ce-policy-copy a { text-decoration:underline; text-underline-offset:4px; overflow-wrap:anywhere; }
-.cobalith-editorial .ce-policy-draft { border-left:2px solid #a86643; padding:10px 0 10px 24px; font-size:14px; }
-.cobalith-editorial .ce-policy-draft p { margin:8px 0 0; }
+.cobalith-editorial .ce-policy-draft { margin-bottom:28px; padding:20px 22px; border:1px solid #b83a32; border-left:4px solid #b42318; background:#f7dfda; color:#6f201b; font-size:14px; }
+.cobalith-editorial .ce-policy-draft strong { display:block; color:#a21f18; font-size:13px; letter-spacing:.08em; text-transform:uppercase; }
+.cobalith-editorial .ce-policy-draft p { margin:8px 0 0; color:#6f201b; }
+.cobalith-editorial .ce-legal-placeholder { display:inline; padding:1px 5px; border-radius:2px; background:#f8d9d4; color:#b42318; font-weight:700; }
+.cobalith-editorial .ce-policy-meta { margin-top:22px; color:#6b705f; font-size:13px; }
 .cobalith-editorial .ce-policy-copy dt { font-weight:600; margin-top:24px; }
 .cobalith-editorial .ce-policy-copy dd { margin:6px 0 0; }
 .cobalith-editorial .ce-cookie-dialog { color:#25291f; background:#f3efe5; border:1px solid #ded5c4; padding:clamp(24px,4vw,48px); width:min(600px,calc(100% - 32px)); max-height:85svh; margin:auto; font-size:16px; line-height:1.65; }

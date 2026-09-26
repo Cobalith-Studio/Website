@@ -252,9 +252,6 @@ export function EditorialLayout({ children }) {
       </main>
       <footer className="ce-footer">
         <div className="ce-wrap">
-          <p className="ce-footer-word" aria-label="Cobalith">
-            COBALITH
-          </p>
           <div className="ce-footer-links flex justify-between">
             <nav aria-label="Navigation secondaire" className="flex">
               <Link to="/le-jeu">LE JEU ↗</Link>
@@ -273,7 +270,7 @@ export function EditorialLayout({ children }) {
             <CookiePreferences />
           </nav>
           <div className="ce-footer-small flex justify-between">
-            <span>© {new Date().getFullYear()} Cobalith Studio</span>
+            <span>© 2025 - 2026 Cobalith Studio</span>
             <span>Millésime : The Mastercut</span>
             <span>Studio de développement indépendant</span>
           </div>
@@ -314,11 +311,6 @@ export function EditorialHomePage() {
           alt="Illustration low-poly d’un domaine entouré de vignes."
           fetchPriority="high"
         />
-        <div className="ce-seal" aria-hidden="true">
-          <span>COBALITH</span>
-          <i>Studio.</i>
-          <span>INDÉPENDANT</span>
-        </div>
         <div className="ce-hero-bottom ce-label flex justify-between">
           <span>MILLÉSIME : THE MASTERCUT</span>
           <a
